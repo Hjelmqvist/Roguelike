@@ -166,14 +166,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0902e3e174fa64a40a71bbeb9425bc75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 5
-  rows: 5
-  itemChance: 9
-  exit: {fileID: 0}
+  columns: 20
+  rows: 20
+  itemChance: 5
+  enemyChance: 5
+  exit: {fileID: 8958118209226389178, guid: 6c8159fe9123e824899dee84c01bd337, type: 3}
   player: {fileID: 5352005503139756355, guid: ba4c25edb62f2c1498705d492b6befd3, type: 3}
   items:
   - {fileID: 3184503403930097085, guid: d6a4db4035096de4f9bf664802b60cfa, type: 3}
-  enemies: []
+  enemies:
+  - {fileID: 8458367784862838185, guid: e2f2fb2e650bbbe4794b1fb0ae3328d8, type: 3}
   floorVariants:
   - {fileID: 5510302581181330636, guid: 3904014ad6f1f974ab09820f6512bf3e, type: 3}
   - {fileID: 8591767809721630099, guid: e4f57210afd355f46b63aae5d4471836, type: 3}

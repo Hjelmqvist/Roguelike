@@ -22,14 +22,16 @@ public class GenScript : MonoBehaviour
     public int columns;
     public int rows;
     
-    public int itemChance;
+    public int itemChance; // Change to shop system?
+    public int enemyChance; // make a function of LVL
     public GameObject exit;
     public GameObject player;
     public GameObject[] items;
     public GameObject[] enemies;
     public GameObject[] floorVariants;
     public GameObject[] wallVariants;
-    private Transform BoardHolder;
+    private Transform _boardHolder;
+    private Transform _enemyController;
     private List<Vector2> _boardpositions = new List<Vector2>();
 
     void InitializeList()
@@ -46,7 +48,8 @@ public class GenScript : MonoBehaviour
 
     void BoardSetup()
     {
-        BoardHolder = new GameObject("Board").transform;
+        _boardHolder = new GameObject("Board").transform;
+        _enemyController = new GameObject("EnemyController").transform;
         for (int x = - 1; x < columns + 1; x++)
         {
             for (int y = - 1; y < rows + 1; y++)
@@ -58,7 +61,7 @@ public class GenScript : MonoBehaviour
                 }
 
                 GameObject instance = Instantiate(toInstanciate, new Vector2(x,y), Quaternion.identity);
-                instance.transform.SetParent(BoardHolder);
+                instance.transform.SetParent(_boardHolder);
             }            
         }
     }
@@ -76,12 +79,17 @@ public class GenScript : MonoBehaviour
                 }
                 else if (x == columns - 1 && y == rows - 1)
                 {
-                    
+                    GameObject exitObject = Instantiate(exit, new Vector2(x,y), Quaternion.identity);
                 }
                 else if (Random.Range(0, itemChance) == 0)
                 {
                     GameObject instance = Instantiate(toInstanciate, new Vector2(x,y), Quaternion.identity);
-                    instance.transform.SetParent(BoardHolder); 
+                    instance.transform.SetParent(_boardHolder); 
+                }
+                else if (Random.Range(0, enemyChance) == 0)
+                {
+                    GameObject baddie = Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector2(x,y), Quaternion.identity);
+                    baddie.transform.SetParent(_enemyController); 
                 }
             }
         }
