@@ -1,29 +1,46 @@
-using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : Entity
 {
-    public delegate void PlayerMoved();
-    public static event PlayerMoved OnPlayerMoved;
-
     [SerializeField] float _actionsPerSecond = 4f;
     float _lastMoveTime = float.MinValue;
+    bool _isMyTurn = true;
+
+    [SerializeField] Weapon _heldWeapon;
+    [SerializeField] Attack _basicAttack;
+
+    public Attack CurrentWeapon => _heldWeapon ? _heldWeapon.WeaponAttack : _basicAttack;
+
+    public UnityEvent<Player> OnPlayerTurnEnded;
 
     private void Update()
     {
-        if (Time.time < _lastMoveTime + (1f / _actionsPerSecond))
+        if (!_isMyTurn || Time.time < _lastMoveTime + (1f / _actionsPerSecond))
             return;
 
-        // check inputs
+        foreach (InputDirection moveDir in InputDirection.InputDirections)
+        {
+            if (Input.GetKeyDown(moveDir.Key) && TryMovePosition(moveDir.Direction))
+            {
+                _lastMoveTime = Time.time;
+                EndPlayerTurn();
+                return;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            Attack(CurrentWeapon);
     }
 
-    private void Move(Vector2Int direction)
+    public void StartPlayerTurn()
     {
-        Vector2Int newPosition = _currentPosition + direction;
-        if (TrySetPosition(newPosition))
-        {
-            _lastMoveTime = Time.time;
-            OnPlayerMoved.Invoke();
-        }
+        _isMyTurn = true;
+    }
+
+    private void EndPlayerTurn()
+    {
+        _isMyTurn = false;
+        OnPlayerTurnEnded.Invoke(this);
     }
 }

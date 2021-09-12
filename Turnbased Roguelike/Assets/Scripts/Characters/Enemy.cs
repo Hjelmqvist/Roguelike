@@ -1,14 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : Entity
 {
-    private void OnEnable() => Player.OnPlayerMoved += Player_OnPlayerMoved;
+    [SerializeField] Attack _enemyAttack;
 
-    private void OnDisable() => Player.OnPlayerMoved -= Player_OnPlayerMoved;
+    public void MakeMove(Entity player)
+    {
+        //if (Pathfinding.TryGetPath(grid, _currentPosition, player.Position, out List<Vector2Int> path))
+        //{
 
-    private void Player_OnPlayerMoved()
+        //}
+    }
+
+    private void Player_OnPlayerMoved(Player player)
     {
         // do movement stuff
     }

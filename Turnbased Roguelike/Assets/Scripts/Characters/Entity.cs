@@ -1,41 +1,63 @@
 using UnityEngine;
-using UnityEngine.Events;
 
+[RequireComponent(typeof(SpriteRenderer), typeof(Health))]
 public abstract class Entity : MonoBehaviour
 {
-    [SerializeField] int _maxHealth = 100;
-    [SerializeField] int _health = 100;
-
-    public int MaxHealth => _maxHealth;
-    public int CurrentHealth => _health;
-
-    public UnityEvent<Entity> OnHealthChanged;
+    SpriteRenderer _spriteRenderer;
+    Health _health;
 
     protected Vector2Int _currentPosition = new Vector2Int();
+    protected Vector2Int _currentDirection = new Vector2Int();
 
-    public virtual void ModifyHealth(int value)
+    public Health Health => _health;
+
+    public Vector2Int Position => _currentPosition;
+
+    protected virtual void Awake()
     {
-        _health = Mathf.Clamp(_health + value, 0, _maxHealth);
-        OnHealthChanged.Invoke(this);
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _health = GetComponent<Health>();
     }
 
     /// <summary>
     /// Tries to set the position of the entity.
     /// Returns false if position is not allowed.
     /// </summary>
-    public bool TrySetPosition(Vector2Int position)
+    public bool TryMovePosition(Vector2Int direction)
     {
         // check if allowed in grid or by raycasting?
+        //if (!Grid.IsValid(_currentDirection + positionChange))
+        // return false;
 
-        _currentPosition = position;
-
-        Vector3 worldPosition = new Vector3(position.x, position.y, transform.position.z);
+        _currentPosition += direction;
+        Vector3 worldPosition = new Vector3(_currentPosition.x, _currentPosition.y, transform.position.z);
         transform.position = worldPosition;
+
+        _currentDirection = direction;
+        if (direction.x != 0)
+        {
+            Vector3 scale = transform.localScale;
+            scale.x = direction.x;
+            transform.localScale = scale;
+        }
+
         return true;
     }
 
-    public void AttackPosition(Vector2Int position)
+    protected void Attack(Attack attack)
     {
+        for (int i = 1; i <= attack.Range; i++)
+        {
+            Vector2Int posToCheck = _currentPosition + _currentDirection * i;
 
+            // Check if the positions are valid and contains an entity.
+            //if (grid.InRange(posToCheck.x, posToCheck.y) && grid.GetEntityOnPosition(posToCheck, out Entity foundEntity))
+            //{
+            //    // Do damage to the found entity
+            //    foundEntity.Health.ModifyHealth(-attack.Damage);
+            //    if (!attack.IsPiercing)
+            //        break;
+            //}
+        }
     }
 }
