@@ -30,7 +30,7 @@ public class GenScript : MonoBehaviour
     public int rows;
     
     public int itemChance; // Change to shop system?
-    public float enemyBaseChance;
+    public int enemyBaseChance;
     public GameObject exit;
     public GameObject player;
     public GameObject saveFile; //Bad name
@@ -39,6 +39,8 @@ public class GenScript : MonoBehaviour
     public GameObject[] floorVariants;
     public GameObject[] wallVariants;
     private int _currentLevel;
+    private float _divisionHandler;
+    private int _enemyTotalChance;
     private Transform _boardHolder;
     private Tile[,] _tiles;
     void Initialize()
@@ -50,6 +52,15 @@ public class GenScript : MonoBehaviour
             {
                 _tiles[x, y] = new Tile();
             }
+        }
+        if (_currentLevel != 0)
+        {
+            _divisionHandler = enemyBaseChance / _currentLevel + 1;
+            _enemyTotalChance = (int)_divisionHandler;
+        }
+        else
+        {
+            _enemyTotalChance = enemyBaseChance + 1;
         }
     }
 
@@ -107,7 +118,7 @@ public class GenScript : MonoBehaviour
                     instance.transform.SetParent(_boardHolder);
                     _tiles[x, y].Gobject = instance;
                 }
-                else if (Random.Range(0, enemyBaseChance) == 0)
+                else if (Random.Range(0, _enemyTotalChance) == 0)
                 {
                     Enemy baddie = Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector2(x,y), Quaternion.identity);
                     baddie.transform.SetParent(_boardHolder);
@@ -120,9 +131,9 @@ public class GenScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        HandleSaveFile();
         Initialize();
         BoardSetup();
-        HandleSaveFile();
         ObjectPlacement();
     }
 }
