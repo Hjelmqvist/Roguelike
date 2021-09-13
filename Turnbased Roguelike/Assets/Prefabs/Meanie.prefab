@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8458367784862838199}
   - component: {fileID: 8458367784862838184}
+  - component: {fileID: 7811397772732568871}
+  - component: {fileID: -2763905384783386203}
   m_Layer: 0
   m_Name: Meanie
   m_TagString: Untagged
@@ -82,3 +84,36 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7811397772732568871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8458367784862838185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66547d9fd90854a4ca83328a045ab385, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-2763905384783386203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8458367784862838185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b95d602598247f4293caa5caf982f76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyAttack:
+    _attackName: Punch
+    _damage: 3
+    _range: 1
+    _isPiercing: 0
