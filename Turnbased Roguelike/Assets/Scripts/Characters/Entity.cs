@@ -9,6 +9,7 @@ public abstract class Entity : MonoBehaviour
 
     protected Vector2Int _currentPosition = new Vector2Int();
     protected Vector2Int _currentDirection = new Vector2Int();
+    protected Tile _currentTile;
 
     public Health Health => _health;
 
@@ -32,6 +33,7 @@ public abstract class Entity : MonoBehaviour
             !tiles[newPosition.x, newPosition.y].IsWalkable)           // Or not walkable
             return false;
 
+        SetTile(tiles[newPosition.x, newPosition.y]);
         SetPosition(newPosition);
 
         _currentDirection = direction;
@@ -49,6 +51,13 @@ public abstract class Entity : MonoBehaviour
         _currentPosition = position;
         Vector3 worldPosition = new Vector3(_currentPosition.x, _currentPosition.y + yOffset, transform.position.z);
         transform.position = worldPosition;
+    }
+
+    public void SetTile(Tile tile)
+    {
+        if (_currentTile != null)
+            _currentTile.LeaveTile();
+        _currentTile = tile;
     }
 
     protected void Attack(Attack attack)

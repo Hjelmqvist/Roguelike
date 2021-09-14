@@ -23,17 +23,13 @@ public class GenScript : MonoBehaviour
         }
     }
 
-    public class Tile
-    {
-        public GameObject Gobject;
-    }
     public int baseColumns;
     public int baseRows;
     
     public int itemChance; // Change to shop system?
     public int enemyBaseChance;
     public GameObject exit;
-    public GameObject player;
+    public Player player;
     public GameObject saveObject; //Bad name
     public GameObject[] items;
     public Enemy[] enemies;
@@ -48,8 +44,13 @@ public class GenScript : MonoBehaviour
     private static bool _saved;
     private int _columns;
     private int _rows;
-    
-        void Initialize()
+
+    public Tile[,] Tiles => _tiles;
+
+    [SerializeField] PlayerController playerController;
+    [SerializeField] EnemyController enemyController;
+
+    void Initialize()
         {
             _columns = baseColumns + _currentLevel;
             _rows = baseRows + _currentLevel;
@@ -106,8 +107,8 @@ public class GenScript : MonoBehaviour
                 GameObject instance = Instantiate(toInstantiate, new Vector2(x,y), Quaternion.identity);
                 instance.transform.SetParent(_boardHolder);
                 if (wall)
-                { 
-                    _tiles[x, y].Gobject = instance;
+                {
+                    _tiles[x, y].SetTileType(Tile.TileType.NotWalkable);
                 }
                 wall = false;
             }            
@@ -123,7 +124,9 @@ public class GenScript : MonoBehaviour
                 GameObject toInstantiate = items[Random.Range(0, items.Length)];
                 if (x == 1 && y == 1)
                 {
-                    GameObject playerObject = Instantiate(player, new Vector2(x,y), Quaternion.identity);
+                    Player playerObject = Instantiate(player, new Vector2(x, y), Quaternion.identity);
+                    playerObject.SetPosition(new Vector2Int(x, y));
+                    playerController.SetPlayer(playerObject);
                 }
                 else if (x == 2 && y == 1 || x == 2 && y == 2 || x == 1 && y == 2)
                 {}
@@ -135,13 +138,15 @@ public class GenScript : MonoBehaviour
                 {
                     GameObject instance = Instantiate(toInstantiate, new Vector2(x,y), Quaternion.identity);
                     instance.transform.SetParent(_boardHolder);
-                    _tiles[x, y].Gobject = instance;
+                    _tiles[x, y].SetItem(instance);
                 }
                 else if (Random.Range(0, _enemyTotalChance) == 0)
                 {
-                    Enemy baddie = Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector2(x,y), Quaternion.identity);
+                    Enemy baddie = Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector2(x, y), Quaternion.identity);
                     baddie.transform.SetParent(_boardHolder);
-                    EnemyController._enemies.Add(baddie);
+                    baddie.SetPosition(new Vector2Int(x, y));
+                    _tiles[x, y].EnterTile(baddie);
+                    enemyController.AddEnemy(baddie);
                 }
             }
         }
