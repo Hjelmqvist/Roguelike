@@ -176,12 +176,12 @@ public class GenScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HandleSaveFile();
+      /*  HandleSaveFile();
         if (_currentLevel % 3 == 0 && _currentLevel != 0)
         {
             ShopSetup();
         }
-        else
+        else*/
         {
             Initialize();
             BoardSetup();
