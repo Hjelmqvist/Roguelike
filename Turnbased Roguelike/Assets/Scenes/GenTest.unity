@@ -177,7 +177,7 @@ MonoBehaviour:
   items:
   - {fileID: 3184503403930097085, guid: d6a4db4035096de4f9bf664802b60cfa, type: 3}
   enemies:
-  - {fileID: -2763905384783386203, guid: e2f2fb2e650bbbe4794b1fb0ae3328d8, type: 3}
+  - {fileID: 2226550257718494026, guid: 4bd18718c135bb540bc319243b3d3b82, type: 3}
   floorVariants:
   - {fileID: 5510302581181330636, guid: 3904014ad6f1f974ab09820f6512bf3e, type: 3}
   - {fileID: 8591767809721630099, guid: e4f57210afd355f46b63aae5d4471836, type: 3}
@@ -187,6 +187,7 @@ MonoBehaviour:
   - {fileID: 2379916648009328508, guid: 889a09d241a73d34aa55c08d37cc7d63, type: 3}
   - {fileID: 1182973480339317387, guid: 0ed9b038f227ff2428f406de160d770f, type: 3}
   playerController: {fileID: 1218369702}
+  enemyController: {fileID: 1221303983}
 --- !u!114 &772857731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,6 +210,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3ba3b7a4b78a8f4a9582031a40ff2b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1221303983 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1659886969642671654, guid: 3356f1bb26d1443458d1ae2f400b84e0, type: 3}
+  m_PrefabInstance: {fileID: 8116925327893057002}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2acdfa64bd5d41b46bbd9f3d502572d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1682903937

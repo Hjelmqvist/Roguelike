@@ -34,7 +34,7 @@ public abstract class Entity : MonoBehaviour
             return false;
 
         SetTile(tiles[newPosition.x, newPosition.y]);
-        SetPosition(newPosition);
+        SetWorldPosition(newPosition);
 
         _currentDirection = direction;
         if (direction.x != 0)
@@ -46,7 +46,7 @@ public abstract class Entity : MonoBehaviour
         return true;
     }
 
-    public void SetPosition(Vector2Int position)
+    public void SetWorldPosition(Vector2Int position)
     {
         _currentPosition = position;
         Vector3 worldPosition = new Vector3(_currentPosition.x, _currentPosition.y + yOffset, transform.position.z);
