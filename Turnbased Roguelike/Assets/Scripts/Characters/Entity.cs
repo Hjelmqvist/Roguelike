@@ -58,6 +58,7 @@ public abstract class Entity : MonoBehaviour
         if (_currentTile != null)
             _currentTile.LeaveTile();
         _currentTile = tile;
+         tile.EnterTile(this);
     }
 
     protected void Attack(Attack attack)

@@ -24,8 +24,6 @@ public class Tile
     public void EnterTile(Entity entity)
     {
         _entity = entity;
-        if (entity)
-            entity.SetTile(this);
     }
 
     public void LeaveTile()

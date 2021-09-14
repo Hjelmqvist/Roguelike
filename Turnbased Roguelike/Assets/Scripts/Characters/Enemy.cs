@@ -7,7 +7,7 @@ public class Enemy : Entity
 
     public void MakeMove(Tile[,] tiles, Entity player)
     {
-
+        Debug.Log("Enemy at: " + _currentPosition);
         if (Vector2Int.Distance(_currentPosition, player.Position) > 1 && Pathfinding.TryGetPath(tiles, _currentPosition, player.Position, out List<Vector2Int> path))
         {
             Debug.Log("found path");
