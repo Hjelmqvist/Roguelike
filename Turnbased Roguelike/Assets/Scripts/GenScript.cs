@@ -124,7 +124,7 @@ public class GenScript : MonoBehaviour
                 if (x == 1 && y == 1)
                 {
                     Player playerObject = Instantiate(player, new Vector2(x, y), Quaternion.identity);
-                    playerObject.SetPosition(new Vector2Int(x, y));
+                    playerObject.SetWorldPosition(new Vector2Int(x, y));
                     playerController.SetPlayer(playerObject);
                 }
                 else if (x == 2 && y == 1 || x == 2 && y == 2 || x == 1 && y == 2)
@@ -145,7 +145,7 @@ public class GenScript : MonoBehaviour
                 {
                     Enemy baddie = Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector2(x, y), Quaternion.identity);
                     baddie.transform.SetParent(_boardHolder);
-                    baddie.SetPosition(new Vector2Int(x, y));
+                    baddie.SetWorldPosition(new Vector2Int(x, y));
                     _tiles[x, y].EnterTile(baddie);
                     enemyController.AddEnemy(baddie);
                 }
