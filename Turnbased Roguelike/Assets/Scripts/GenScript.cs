@@ -23,13 +23,17 @@ public class GenScript : MonoBehaviour
         }
     }
 
-    public int columns;
-    public int rows;
+    public class Tile
+    {
+        public GameObject Gobject;
+    }
+    public int baseColumns;
+    public int baseRows;
     
     public int itemChance; // Change to shop system?
     public int enemyBaseChance;
     public GameObject exit;
-    public Player player;
+    public GameObject player;
     public GameObject saveObject; //Bad name
     public GameObject[] items;
     public Enemy[] enemies;
@@ -42,18 +46,18 @@ public class GenScript : MonoBehaviour
     private InfoToSave _saveFile;
     private Tile[,] _tiles;
     private static bool _saved;
-
-    [SerializeField] PlayerController playerController;
-    [SerializeField] EnemyController enemyController;
-
-    public Tile[,] Tiles => _tiles;
-
-    void Initialize()
-    {
-        _tiles = new Tile[columns, rows];
-        for (int x = 0; x < columns; x++)
+    private int _columns;
+    private int _rows;
+    
+        void Initialize()
         {
-            for (int y = 0; y < rows; y++)
+            _columns = baseColumns + _currentLevel;
+            _rows = baseRows + _currentLevel;
+                
+                _tiles = new Tile[_columns, _rows];
+        for (int x = 0; x < _columns; x++)
+        {
+            for (int y = 0; y < _rows; y++)
             {
                 _tiles[x, y] = new Tile();
             }
@@ -88,12 +92,12 @@ public class GenScript : MonoBehaviour
     {
         bool wall = false;
         _boardHolder = new GameObject("Board").transform;
-        for (int x = 0; x < columns ; x++)
+        for (int x = 0; x < _columns ; x++)
         {
-            for (int y = 0; y < rows ; y++)
+            for (int y = 0; y < _rows ; y++)
             {
                 GameObject toInstantiate = floorVariants[Random.Range(0, floorVariants.Length)];
-                if (x == 0 || x == columns -1 || y == 0 || y == rows -1)
+                if (x == 0 || x == _columns -1 || y == 0 || y == _rows -1)
                 {
                     toInstantiate = wallVariants[Random.Range(0, wallVariants.Length)];
                     wall = true;
@@ -102,8 +106,8 @@ public class GenScript : MonoBehaviour
                 GameObject instance = Instantiate(toInstantiate, new Vector2(x,y), Quaternion.identity);
                 instance.transform.SetParent(_boardHolder);
                 if (wall)
-                {
-                    _tiles[x, y].SetTileType(Tile.TileType.NotWalkable);
+                { 
+                    _tiles[x, y].Gobject = instance;
                 }
                 wall = false;
             }            
@@ -112,20 +116,18 @@ public class GenScript : MonoBehaviour
 
     void ObjectPlacement()
     {
-        for (int x = 1; x < columns -1; x++)
+        for (int x = 1; x < _columns -1; x++)
         {
-            for (int y = 1; y < rows -1; y++)
+            for (int y = 1; y < _rows -1; y++)
             {
                 GameObject toInstantiate = items[Random.Range(0, items.Length)];
                 if (x == 1 && y == 1)
                 {
-                    Player playerObject = Instantiate(player, new Vector2(x,y), Quaternion.identity);
-                    playerObject.SetPosition(new Vector2Int(x, y));
-                    playerController.SetPlayer(playerObject);
+                    GameObject playerObject = Instantiate(player, new Vector2(x,y), Quaternion.identity);
                 }
                 else if (x == 2 && y == 1 || x == 2 && y == 2 || x == 1 && y == 2)
                 {}
-                else if (x == columns - 2 && y == rows - 2)
+                else if (x == _columns - 2 && y == _rows - 2)
                 {
                     GameObject exitObject = Instantiate(exit, new Vector2(x,y), Quaternion.identity);
                 }
@@ -133,15 +135,13 @@ public class GenScript : MonoBehaviour
                 {
                     GameObject instance = Instantiate(toInstantiate, new Vector2(x,y), Quaternion.identity);
                     instance.transform.SetParent(_boardHolder);
-                    _tiles[x, y].SetItem(instance);
+                    _tiles[x, y].Gobject = instance;
                 }
                 else if (Random.Range(0, _enemyTotalChance) == 0)
                 {
                     Enemy baddie = Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector2(x,y), Quaternion.identity);
                     baddie.transform.SetParent(_boardHolder);
-                    baddie.SetPosition(new Vector2Int(x, y));
-                    _tiles[x, y].EnterTile(baddie);
-                    enemyController.AddEnemy(baddie);
+                    EnemyController._enemies.Add(baddie);
                 }
             }
         }
