@@ -27,8 +27,8 @@ public class GenScript : MonoBehaviour
     {
         public GameObject Gobject;
     }
-    public int columns;
-    public int rows;
+    public int baseColumns;
+    public int baseRows;
     
     public int itemChance; // Change to shop system?
     public int enemyBaseChance;
@@ -46,12 +46,18 @@ public class GenScript : MonoBehaviour
     private InfoToSave _saveFile;
     private Tile[,] _tiles;
     private static bool _saved;
-    void Initialize()
-    {
-        _tiles = new Tile[columns, rows];
-        for (int x = 0; x < columns; x++)
+    private int _columns;
+    private int _rows;
+    
+        void Initialize()
         {
-            for (int y = 0; y < rows; y++)
+            _columns = baseColumns + _currentLevel;
+            _rows = baseRows + _currentLevel;
+                
+                _tiles = new Tile[_columns, _rows];
+        for (int x = 0; x < _columns; x++)
+        {
+            for (int y = 0; y < _rows; y++)
             {
                 _tiles[x, y] = new Tile();
             }
@@ -86,12 +92,12 @@ public class GenScript : MonoBehaviour
     {
         bool wall = false;
         _boardHolder = new GameObject("Board").transform;
-        for (int x = 0; x < columns ; x++)
+        for (int x = 0; x < _columns ; x++)
         {
-            for (int y = 0; y < rows ; y++)
+            for (int y = 0; y < _rows ; y++)
             {
                 GameObject toInstantiate = floorVariants[Random.Range(0, floorVariants.Length)];
-                if (x == 0 || x == columns -1 || y == 0 || y == rows -1)
+                if (x == 0 || x == _columns -1 || y == 0 || y == _rows -1)
                 {
                     toInstantiate = wallVariants[Random.Range(0, wallVariants.Length)];
                     wall = true;
@@ -110,9 +116,9 @@ public class GenScript : MonoBehaviour
 
     void ObjectPlacement()
     {
-        for (int x = 1; x < columns -1; x++)
+        for (int x = 1; x < _columns -1; x++)
         {
-            for (int y = 1; y < rows -1; y++)
+            for (int y = 1; y < _rows -1; y++)
             {
                 GameObject toInstantiate = items[Random.Range(0, items.Length)];
                 if (x == 1 && y == 1)
@@ -121,7 +127,7 @@ public class GenScript : MonoBehaviour
                 }
                 else if (x == 2 && y == 1 || x == 2 && y == 2 || x == 1 && y == 2)
                 {}
-                else if (x == columns - 2 && y == rows - 2)
+                else if (x == _columns - 2 && y == _rows - 2)
                 {
                     GameObject exitObject = Instantiate(exit, new Vector2(x,y), Quaternion.identity);
                 }

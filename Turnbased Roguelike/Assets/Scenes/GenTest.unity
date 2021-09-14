@@ -168,8 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0902e3e174fa64a40a71bbeb9425bc75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 20
-  rows: 20
+  baseColumns: 10
+  baseRows: 10
   itemChance: 9
   enemyBaseChance: 20
   exit: {fileID: 8958118209226389178, guid: 6c8159fe9123e824899dee84c01bd337, type: 3}
