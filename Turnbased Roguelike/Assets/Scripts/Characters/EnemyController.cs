@@ -5,13 +5,20 @@ using UnityEngine.Events;
 
 public class EnemyController : MonoBehaviour
 {
+    [SerializeField] GenScript _levelGenerator;
     [SerializeField] float _secondsBeforeMakingMoves = 1;
     [SerializeField] float _secondsBetweenEnemyMoves = 1;
     [SerializeField] float _secondsBeforeEndingTurn = 1;
 
-    public static List<Enemy> _enemies = new List<Enemy>();
+    [SerializeField] List<Enemy> _enemies = new List<Enemy>();
 
     public UnityEvent OnEnemyTurnEnded;
+
+    public void AddEnemy(Enemy enemy)
+    {
+        if (enemy)
+            _enemies.Add(enemy);
+    }
 
     public void StartEnemyTurn(Entity player)
     {
@@ -28,7 +35,7 @@ public class EnemyController : MonoBehaviour
         yield return new WaitForSeconds(_secondsBeforeMakingMoves);
         foreach (Enemy enemy in _enemies)
         {
-            enemy.MakeMove(player);
+            enemy.MakeMove(_levelGenerator.Tiles, player);
             yield return new WaitForSeconds(_secondsBetweenEnemyMoves);
         }
         yield return new WaitForSeconds(_secondsBeforeEndingTurn);

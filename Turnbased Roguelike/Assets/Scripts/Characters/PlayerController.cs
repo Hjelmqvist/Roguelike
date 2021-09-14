@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] GenScript _levelGenerator;
     [SerializeField] Player _player;
     [SerializeField] float _actionsPerSecond = 4f;
     float _lastMoveTime = float.MinValue;
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
         foreach (InputDirection moveDir in InputDirection.InputDirections)
         {
-            if (Input.GetKeyDown(moveDir.Key) && _player.TryMovePosition(moveDir.Direction))
+            if (Input.GetKeyDown(moveDir.Key) && _player.TryMovePosition(_levelGenerator.Tiles, moveDir.Direction))
             {
                 _lastMoveTime = Time.time;
                 EndPlayerTurn();

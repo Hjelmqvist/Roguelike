@@ -3,7 +3,7 @@ using UnityEngine;
 
 public static class Pathfinding
 {
-    public static bool TryGetPath(GenScript.Tile[,] grid, Vector2Int start, Vector2Int end, out List<Vector2Int> path)
+    public static bool TryGetPath(Tile[,] grid, Vector2Int start, Vector2Int end, out List<Vector2Int> path)
     {
         PathNode startNode = new PathNode(start, start, end, null);
         PathNode endNode = new PathNode(end, start, end, null);
@@ -51,7 +51,7 @@ public static class Pathfinding
     {
         List<Vector2Int> path = new List<Vector2Int>();
         PathNode current = node;
-        while (current != null)
+        while (current != null && current.Parent != null)
         {
             path.Add(current.Position);
             current = current.Parent;
@@ -63,7 +63,7 @@ public static class Pathfinding
     /// <summary>
     /// Returns all valid directions to move from this node
     /// </summary>
-    private static List<PathNode> GetChildren(this PathNode node, GenScript.Tile[,] grid, Vector2Int start, Vector2Int end)
+    private static List<PathNode> GetChildren(this PathNode node, Tile[,] grid, Vector2Int start, Vector2Int end)
     {
         List<PathNode> children = new List<PathNode>();
         Vector2Int[] _directions = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
@@ -72,10 +72,9 @@ public static class Pathfinding
         {
             Vector2Int position = node.Position + dir;
 
-            if (position.x < 0 || position.x > grid.GetLength(0) ||
-                position.y < 0 || position.y > grid.GetLength(1) ||
-                grid[position.x, position.y].Gobject // || !grid[position.x, position.y].IsWalkable
-                )
+            if (position.x < 0 || position.x > grid.GetLength(0) || // Outside x range
+                position.y < 0 || position.y > grid.GetLength(1) || // Outside y range
+                !grid[position.x, position.y].IsWalkable)           // Or not walkable
                 continue;
 
             //if (InRange(position) && grid.IsWalkable(position))

@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer), typeof(Health))]
 public abstract class Entity : MonoBehaviour
 {
+    [SerializeField] float yOffset;
     SpriteRenderer _spriteRenderer;
     Health _health;
 
@@ -23,15 +24,15 @@ public abstract class Entity : MonoBehaviour
     /// Tries to set the position of the entity.
     /// Returns false if position is not allowed.
     /// </summary>
-    public bool TryMovePosition(Vector2Int direction)
+    public bool TryMovePosition(Tile[,] tiles, Vector2Int direction)
     {
-        // check if allowed in grid or by raycasting?
-        //if (!grid.InRange(posToCheck.x, posToCheck.y))
-        // return false;
+        Vector2Int newPosition = _currentPosition + direction;
+        if (newPosition.x < 0 || newPosition.x > tiles.GetLength(0) || // Outside x range
+            newPosition.y < 0 || newPosition.y > tiles.GetLength(1) || // Outside y range
+            !tiles[newPosition.x, newPosition.y].IsWalkable)           // Or not walkable
+            return false;
 
-        _currentPosition += direction;
-        Vector3 worldPosition = new Vector3(_currentPosition.x, _currentPosition.y, transform.position.z);
-        transform.position = worldPosition;
+        SetPosition(newPosition);
 
         _currentDirection = direction;
         if (direction.x != 0)
@@ -40,8 +41,14 @@ public abstract class Entity : MonoBehaviour
             scale.x = direction.x;
             transform.localScale = scale;
         }
-
         return true;
+    }
+
+    public void SetPosition(Vector2Int position)
+    {
+        _currentPosition = position;
+        Vector3 worldPosition = new Vector3(_currentPosition.x, _currentPosition.y + yOffset, transform.position.z);
+        transform.position = worldPosition;
     }
 
     protected void Attack(Attack attack)
