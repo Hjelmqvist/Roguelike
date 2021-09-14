@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 772857728}
   - component: {fileID: 772857729}
-  - component: {fileID: 772857731}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -188,19 +187,6 @@ MonoBehaviour:
   - {fileID: 3699363338465200345, guid: 0d0c87b7d70c5f94290db18dc8ff7053, type: 3}
   playerController: {fileID: 1218369702}
   enemyController: {fileID: 1221303983}
---- !u!114 &772857731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 772857727}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 806dc662b3cd31d44b65480f749d5a5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CurrentLevel: 0
 --- !u!114 &1218369702 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7463946934013579560, guid: 3356f1bb26d1443458d1ae2f400b84e0, type: 3}
