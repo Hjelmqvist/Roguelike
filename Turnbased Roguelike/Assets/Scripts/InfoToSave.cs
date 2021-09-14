@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InfoToSave : MonoBehaviour
 {
-    //File should only contain data
-    public int CurrentLevel { get; set; }
+    public int CurrentLevel;
+    public void AddLevel()
+    {
+        CurrentLevel += 1;
+    }
 }

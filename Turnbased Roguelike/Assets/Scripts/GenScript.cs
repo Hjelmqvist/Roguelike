@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.IMGUI.Controls;
 using Random = UnityEngine.Random;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using Object = UnityEngine.Object;
@@ -33,7 +34,7 @@ public class GenScript : MonoBehaviour
     public int enemyBaseChance;
     public GameObject exit;
     public GameObject player;
-    public GameObject saveFile; //Bad name
+    public GameObject saveObject; //Bad name
     public GameObject[] items;
     public Enemy[] enemies;
     public GameObject[] floorVariants;
@@ -42,7 +43,9 @@ public class GenScript : MonoBehaviour
     private float _divisionHandler;
     private int _enemyTotalChance;
     private Transform _boardHolder;
+    private InfoToSave _saveFile;
     private Tile[,] _tiles;
+    private static bool _saved;
     void Initialize()
     {
         _tiles = new Tile[columns, rows];
@@ -66,8 +69,18 @@ public class GenScript : MonoBehaviour
 
     void HandleSaveFile()
     {
-        _currentLevel = saveFile.GetComponent<InfoToSave>().CurrentLevel;
-        DontDestroyOnLoad(saveFile); 
+        if (!_saved)
+        {
+            GameObject saveInstance = Instantiate(saveObject, new Vector2(0, 0), Quaternion.identity);
+            _saveFile = saveInstance.GetComponent<InfoToSave>();
+            DontDestroyOnLoad(saveInstance);
+            _saved = true;
+        }
+        else
+        {
+            _saveFile = GameObject.FindWithTag("Save").GetComponent<InfoToSave>();
+        }
+        _currentLevel = _saveFile.CurrentLevel;
     }
     void BoardSetup()
     {
