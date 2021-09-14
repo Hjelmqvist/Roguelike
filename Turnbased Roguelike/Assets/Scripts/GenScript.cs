@@ -54,8 +54,7 @@ public class GenScript : MonoBehaviour
         {
             _columns = baseColumns + _currentLevel;
             _rows = baseRows + _currentLevel;
-                
-                _tiles = new Tile[_columns, _rows];
+            _tiles = new Tile[_columns, _rows];
         for (int x = 0; x < _columns; x++)
         {
             for (int y = 0; y < _rows; y++)
@@ -135,6 +134,8 @@ public class GenScript : MonoBehaviour
                 {
                     GameObject exitObject = Instantiate(exit, new Vector2(x,y), Quaternion.identity);
                 }
+                else if (x == _columns - 3 && y == _rows - 2 || x == _columns - 3 && y == _rows - 3 || x == _columns - 2 && y == _rows - 3)
+                {}
                 else if (Random.Range(0, itemChance) == 0)
                 {
                     GameObject instance = Instantiate(toInstantiate, new Vector2(x,y), Quaternion.identity);
