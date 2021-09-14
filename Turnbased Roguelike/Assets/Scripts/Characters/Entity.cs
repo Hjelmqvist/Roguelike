@@ -26,7 +26,7 @@ public abstract class Entity : MonoBehaviour
     public bool TryMovePosition(Vector2Int direction)
     {
         // check if allowed in grid or by raycasting?
-        //if (!Grid.IsValid(_currentDirection + positionChange))
+        //if (!grid.InRange(posToCheck.x, posToCheck.y))
         // return false;
 
         _currentPosition += direction;
