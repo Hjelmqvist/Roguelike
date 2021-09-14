@@ -73,12 +73,8 @@ public static class Pathfinding
             Vector2Int position = node.Position + dir;
 
             if (position.x < 0 || position.x > grid.GetLength(0) || // Outside x range
-                position.y < 0 || position.y > grid.GetLength(1) || // Outside y range
-                !grid[position.x, position.y].IsWalkable)           // Or not walkable
+                position.y < 0 || position.y > grid.GetLength(1))   // Outside y range
                 continue;
-
-            //if (InRange(position) && grid.IsWalkable(position))
-            //    continue;
 
             PathNode newNode = new PathNode(position, start, end, node);
             children.Add(newNode);
