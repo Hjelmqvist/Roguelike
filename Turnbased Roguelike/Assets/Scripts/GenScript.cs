@@ -156,8 +156,8 @@ public class GenScript : MonoBehaviour
     }
     void CheckIfObstructed()
     {
-        if(!Pathfinding.TryGetPath(_tiles, new Vector2Int(1, 1), new Vector2Int(_columns - 2, _rows - 2),
-            out List<Vector2Int> path));
+        if(!Pathfinding.TryGetPath(_tiles, new Vector2Int(2, 2), new Vector2Int(_columns - 3, _rows - 3),
+            out List<Vector2Int> path))
         {
             SceneManager.LoadScene(1);
         }
