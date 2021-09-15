@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ExitScript : MonoBehaviour
+public class ExitScript : Item
 {
     // Start is called before the first frame update
-    private Transform _saveObject;
-    void Start()
+    private GameObject _saveObject;
+    private GameObject _boardHolder;
+    private GameObject _manager;
+    private GameObject _enemyController;
+    public override bool Interact(Player player)
     {
-        //may not be needed
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //when player enters
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _saveObject = GameObject.FindWithTag("Save").transform;
-            _saveObject.GetComponent<InfoToSave>().AddLevel();
-            SceneManager.LoadScene(1);
-        }
+        _manager = GameObject.FindWithTag("GameController");
+        _saveObject = GameObject.FindWithTag("Save");
+        _saveObject.GetComponent<InfoToSave>().AddLevel();
+        _boardHolder = GameObject.Find("Board");
+        _enemyController = GameObject.Find("EnemyController");
+        Destroy(_boardHolder.gameObject);
+        _enemyController.GetComponent<EnemyController>().ClearEnemyList();
+        _manager.GetComponent<GenScript>().MapGeneration();
+        return true;
     }
 }

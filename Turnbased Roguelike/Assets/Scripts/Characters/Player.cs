@@ -23,6 +23,18 @@ public class Player : Entity
         return Attack(tiles, CurrentWeapon);
     }
 
+    public bool Interact(Tile[,] tiles, Player player)
+    {
+        Item interacted = _currentTile.TryGetItem();
+        if (interacted != null)
+        {
+            interacted.Interact(player);
+            return true;
+        }
+
+        return false;
+    }
+
     public void EquipWeapon(Weapon weapon)
     {
         if (_heldWeapon)

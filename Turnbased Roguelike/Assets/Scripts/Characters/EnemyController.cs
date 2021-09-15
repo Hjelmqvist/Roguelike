@@ -24,6 +24,11 @@ public class EnemyController : MonoBehaviour
 
     }
 
+    public void ClearEnemyList()
+    {
+        _enemies.Clear();
+    }
+
     private void OnEntityDeath(Entity entity)
     {
         if (entity is Enemy enemy)

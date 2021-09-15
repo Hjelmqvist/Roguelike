@@ -34,7 +34,7 @@ public partial class PlayerController : MonoBehaviour
         if (!_player || !_isPlayerTurn || Time.time < _lastMoveTime + (1f / _actionsPerSecond))
             return;
 
-        if (TryMove() || TryAttack())
+        if (TryMove() || TryAttack() || TryInteract())
             return;
     }
 
@@ -63,6 +63,16 @@ public partial class PlayerController : MonoBehaviour
         {
             _player.Attack(_levelGenerator.Tiles);
             EndPlayerTurn();
+            return true;
+        }
+        return false;
+    }
+
+    private bool TryInteract()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            _player.Interact(_levelGenerator.Tiles, _player);
             return true;
         }
         return false;

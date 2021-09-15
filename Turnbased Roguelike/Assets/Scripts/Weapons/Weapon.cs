@@ -6,9 +6,10 @@ public class Weapon : Item
 
     public Attack WeaponAttack => _attack;
 
-    public override void Interact(Player player)
+    public override bool Interact(Player player)
     {
         player.EquipWeapon(this);
+        return true;
     }
 
     public void Equip(Transform parent)

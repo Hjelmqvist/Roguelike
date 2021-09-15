@@ -27,6 +27,12 @@ public class Tile
         _item = item;
     }
 
+    public Item TryGetItem()
+    {
+        Item item = _item;
+        return item;
+    }
+
     public void EnterTile(Entity entity)
     {
         _entity = entity;
