@@ -6,7 +6,7 @@ public class Tile
 
     TileType _type;
     Entity _entity;
-    GameObject _item;
+    Item _item;
 
     public TileType Type => _type;
     public bool IsWalkable => _type == TileType.Walkable && !_entity;
@@ -22,7 +22,7 @@ public class Tile
         _type = type;
     }
 
-    public void SetItem(GameObject item)
+    public void SetItem(Item item)
     {
         _item = item;
     }

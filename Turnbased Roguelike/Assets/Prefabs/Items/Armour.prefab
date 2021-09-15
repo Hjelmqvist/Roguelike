@@ -110,7 +110,6 @@ GameObject:
   m_Component:
   - component: {fileID: 9170761832510094580}
   - component: {fileID: 9170761832510094579}
-  - component: {fileID: 9170761832510094578}
   - component: {fileID: 9170761832510094577}
   m_Layer: 0
   m_Name: Armour
@@ -185,22 +184,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9170761832510094578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9170761832510094576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66547d9fd90854a4ca83328a045ab385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHealth: 0
-  OnHealthChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &9170761832510094577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,10 +196,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf9c3278499a61439d1951157835040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yOffset: 0
-  OnEntityDeath:
-    m_PersistentCalls:
-      m_Calls: []
   price: 50
-  type: Armour
+  weapon: 0
   effect: 50

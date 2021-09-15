@@ -35,7 +35,7 @@ public class GenScript : MonoBehaviour
     public Enemy[] enemies;
     public GameObject[] floorVariants;
     public GameObject[] wallVariants;
-    public Entity[] storeItems;
+    public Item[] storeItems;
     private int _currentLevel;
     private float _divisionHandler;
     private int _enemyTotalChance;
@@ -174,12 +174,12 @@ public class GenScript : MonoBehaviour
                 }
                 else if(x % 3 == 0 && y == _rows - 4)
                 {
-                    Entity item = Instantiate(storeItems[itemSelection], new Vector2(x,y), Quaternion.identity);
+                    Item item = Instantiate(storeItems[itemSelection], new Vector2(x,y), Quaternion.identity);
                     item.transform.SetParent(_boardHolder);
                     TextMesh displayedPrice = item.GetComponentInChildren<TextMesh>();
                     displayedPrice.text = item.GetComponent<Item>().price.ToString();
-                    item.SetTile(_tiles[x, y]);
-                    item.SetWorldPosition(new Vector2Int(x, y));
+                    _tiles[x, y].SetTileType(Tile.TileType.Walkable);
+                    _tiles[x, y].SetItem(item);
                     itemSelection += 1;
                 }
             }

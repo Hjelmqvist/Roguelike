@@ -110,8 +110,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7173067723017192895}
   - component: {fileID: 7173067723017192888}
-  - component: {fileID: 7173067723017192889}
   - component: {fileID: 7173067723017192890}
+  - component: {fileID: 681192239277318805}
   m_Layer: 0
   m_Name: Sword4
   m_TagString: Untagged
@@ -185,22 +185,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7173067723017192889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7173067723017192891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66547d9fd90854a4ca83328a045ab385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHealth: 0
-  OnHealthChanged:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &7173067723017192890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,10 +197,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf9c3278499a61439d1951157835040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  yOffset: 0
-  OnEntityDeath:
-    m_PersistentCalls:
-      m_Calls: []
   price: 100
-  weapon: 1
-  effect: 40
+--- !u!114 &681192239277318805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7173067723017192891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4469d8b61beeaf46a26709b14c71d4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _attack:
+    _attackName: Punch
+    _damage: 3
+    _range: 1
+    _isPiercing: 0

@@ -2,20 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : Entity
+public class Item : MonoBehaviour
 {
     public int price;
-    public bool weapon;
-    public int effect;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public string Type;
 
-    // Update is called once per frame
-    void Update()
+    public void Interact(int CurrentGold)
     {
-        
+        if (price != 0)
+        {
+            if (price < CurrentGold)
+            {
+                
+            }
+        }
+        else
+        {
+            
+        }
     }
 }
