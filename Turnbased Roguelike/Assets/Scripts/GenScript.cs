@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 public class GenScript : MonoBehaviour
@@ -26,7 +27,7 @@ public class GenScript : MonoBehaviour
     public int baseColumns;
     public int baseRows;
     
-    public int itemChance; // Change to shop system?
+    public int wallChance;
     public int enemyBaseChance;
     public GameObject exit;
     public Player player;
@@ -51,10 +52,11 @@ public class GenScript : MonoBehaviour
     [SerializeField] EnemyController enemyController;
 
     void Initialize()
-        {
-            _columns = baseColumns + _currentLevel;
-            _rows = baseRows + _currentLevel;
-            _tiles = new Tile[_columns, _rows];
+    {
+        _columns = baseColumns + _currentLevel;
+        _rows = baseRows + _currentLevel;
+        _tiles = new Tile[_columns, _rows];
+        
         for (int x = 0; x < _columns; x++)
         {
             for (int y = 0; y < _rows; y++)
@@ -113,14 +115,12 @@ public class GenScript : MonoBehaviour
             }            
         }
     }
-
     void ObjectPlacement()
     {
         for (int x = 1; x < _columns -1; x++)
         {
             for (int y = 1; y < _rows -1; y++)
             {
-                GameObject toInstantiate = items[Random.Range(0, items.Length)];
                 if (x == 1 && y == 1)
                 {
                     Player playerObject = Instantiate(player, new Vector2(x, y), Quaternion.identity);
@@ -136,11 +136,11 @@ public class GenScript : MonoBehaviour
                 }
                 else if (x == _columns - 3 && y == _rows - 2 || x == _columns - 3 && y == _rows - 3 || x == _columns - 2 && y == _rows - 3)
                 {}
-                else if (Random.Range(0, itemChance) == 0)
+                else if (Random.Range(0, wallChance) == 0)
                 {
-                    GameObject instance = Instantiate(toInstantiate, new Vector2(x,y), Quaternion.identity);
+                    GameObject instance = Instantiate(wallVariants[Random.Range(0, wallVariants.Length)], new Vector2(x,y), Quaternion.identity);
                     instance.transform.SetParent(_boardHolder);
-                    _tiles[x, y].SetItem(instance);
+                    _tiles[x, y].SetTileType(Tile.TileType.NotWalkable);
                 }
                 else if (Random.Range(0, _enemyTotalChance) == 0)
                 {
@@ -154,13 +154,40 @@ public class GenScript : MonoBehaviour
             }
         }
     }
-
+    void CheckIfObstructed()
+    {
+        if(!Pathfinding.TryGetPath(_tiles, new Vector2Int(2, 2), new Vector2Int(_columns - 3, _rows - 3),
+            out List<Vector2Int> path))
+        {
+            SceneManager.LoadScene(1);
+        }
+    }
+    void ShopSetup()
+    {
+        for (int x = 0; x < baseColumns; x++)
+        {
+            for (int y = 0; y < baseRows; y++)
+            {
+                _tiles[x, y] = new Tile();
+            }
+        }
+        
+    }
     // Start is called before the first frame update
     void Start()
     {
         HandleSaveFile();
-        Initialize();
-        BoardSetup();
-        ObjectPlacement();
+        /*
+        if (_currentLevel % 3 == 0 && _currentLevel != 0)
+        {
+            ShopSetup();
+        }
+        else*/
+        {
+            Initialize();
+            BoardSetup();
+            ObjectPlacement();
+            CheckIfObstructed();
+        }
     }
 }
