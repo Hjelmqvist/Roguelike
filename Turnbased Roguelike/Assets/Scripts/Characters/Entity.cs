@@ -28,14 +28,18 @@ public abstract class Entity : MonoBehaviour
     public bool TryMovePosition(Tile[,] tiles, Vector2Int direction)
     {
         Vector2Int newPosition = _currentPosition + direction;
-        if (newPosition.x < 0 || newPosition.x > tiles.GetLength(0) || // Outside x range
-            newPosition.y < 0 || newPosition.y > tiles.GetLength(1) || // Outside y range
-            !tiles[newPosition.x, newPosition.y].IsWalkable)           // Or not walkable
+        if (!tiles.InRange(newPosition) || !tiles[newPosition.x, newPosition.y].IsWalkable)
             return false;
 
         SetTile(tiles[newPosition.x, newPosition.y]);
         SetWorldPosition(newPosition);
+        SetDirection(direction);
+        return true;
+    }
 
+    public void SetDirection(Vector2Int direction)
+    {
+        direction.Clamp(-Vector2Int.one, Vector2Int.one);
         _currentDirection = direction;
         if (direction.x != 0)
         {
@@ -43,7 +47,6 @@ public abstract class Entity : MonoBehaviour
             scale.x = direction.x;
             transform.localScale = scale;
         }
-        return true;
     }
 
     public void SetWorldPosition(Vector2Int position)
@@ -61,20 +64,19 @@ public abstract class Entity : MonoBehaviour
          tile.EnterTile(this);
     }
 
-    protected void Attack(Attack attack)
+    protected void Attack(Tile[,] tiles, Attack attack)
     {
         for (int i = 1; i <= attack.Range; i++)
         {
             Vector2Int posToCheck = _currentPosition + _currentDirection * i;
 
-            // Check if the positions are valid and contains an entity.
-            //if (grid.InRange(posToCheck.x, posToCheck.y) && grid.GetEntityOnPosition(posToCheck, out Entity foundEntity))
-            //{
-            //    // Do damage to the found entity
-            //    foundEntity.Health.ModifyHealth(-attack.Damage);
-            //    if (!attack.IsPiercing)
-            //        break;
-            //}
+            // Check if the position is valid and contains an entity.
+            if (tiles.InRange(posToCheck) && tiles[posToCheck.x, posToCheck.y].TryGetEntity(out Entity entity))
+            {
+                entity.Health.ModifyHealth(-attack.Damage);
+                if (!attack.IsPiercing)
+                    break;
+            }
         }
     }
 }

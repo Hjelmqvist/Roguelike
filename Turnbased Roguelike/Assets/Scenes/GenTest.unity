@@ -353,6 +353,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 772857729}
     - target: {fileID: 7463946934013579560, guid: 3356f1bb26d1443458d1ae2f400b84e0, type: 3}
+      propertyPath: _upKey
+      value: 119
+      objectReference: {fileID: 0}
+    - target: {fileID: 7463946934013579560, guid: 3356f1bb26d1443458d1ae2f400b84e0, type: 3}
+      propertyPath: _downKey
+      value: 115
+      objectReference: {fileID: 0}
+    - target: {fileID: 7463946934013579560, guid: 3356f1bb26d1443458d1ae2f400b84e0, type: 3}
+      propertyPath: _leftKey
+      value: 97
+      objectReference: {fileID: 0}
+    - target: {fileID: 7463946934013579560, guid: 3356f1bb26d1443458d1ae2f400b84e0, type: 3}
+      propertyPath: _rightKey
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7463946934013579560, guid: 3356f1bb26d1443458d1ae2f400b84e0, type: 3}
       propertyPath: _levelGenerator
       value: 
       objectReference: {fileID: 772857729}

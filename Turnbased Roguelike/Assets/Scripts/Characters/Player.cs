@@ -12,9 +12,9 @@ public class Player : Entity
 
     public UnityEvent<int> OnGoldChanged;
 
-    public void Attack()
+    public void Attack(Tile[,] tiles)
     {
-        Attack(CurrentWeapon);
+        Attack(tiles, CurrentWeapon);
     }
 
     public void ModifyGold(int amount)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,8 +26,7 @@ public static class Pathfinding
                 return true;
             }
 
-            List<PathNode> children = currentNode.GetChildren(grid, start, end);
-            AddChildrenToBeChecked(nodesToCheck, checkedNodes, children);
+            nodesToCheck.AddRange(currentNode.GetChildren(grid, start, end, nodesToCheck, checkedNodes));
         }
         path = null;
         return false;
@@ -51,7 +51,7 @@ public static class Pathfinding
     {
         List<Vector2Int> path = new List<Vector2Int>();
         PathNode current = node;
-        while (current != null && current.Parent != null)
+        while (current != null)
         {
             path.Add(current.Position);
             current = current.Parent;
@@ -63,7 +63,7 @@ public static class Pathfinding
     /// <summary>
     /// Returns all valid directions to move from this node
     /// </summary>
-    private static List<PathNode> GetChildren(this PathNode node, Tile[,] grid, Vector2Int start, Vector2Int end)
+    private static List<PathNode> GetChildren(this PathNode node, Tile[,] grid, Vector2Int start, Vector2Int end, List<PathNode> nodesToCheck, List<PathNode> checkedNodes)
     {
         List<PathNode> children = new List<PathNode>();
         Vector2Int[] _directions = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
@@ -71,28 +71,14 @@ public static class Pathfinding
         foreach (Vector2Int dir in _directions)
         {
             Vector2Int position = node.Position + dir;
+            PathNode newNode = new PathNode(position, start, end, node);
 
-            if (position.x < 0 || position.x > grid.GetLength(0) || // Outside x range
-                position.y < 0 || position.y > grid.GetLength(1))   // Outside y range
+            if (!grid.InRange(position) || nodesToCheck.Contains(newNode) || checkedNodes.Contains(newNode))
                 continue;
 
-            PathNode newNode = new PathNode(position, start, end, node);
             children.Add(newNode);
         }
         return children;
-    }
-
-    /// <summary>
-    /// Adds children to the nodesToCheck list if they aren't already to be checked or have been checked already
-    /// </summary>
-    private static void AddChildrenToBeChecked(List<PathNode> nodesToCheck, List<PathNode> checkedNodes, List<PathNode> children)
-    {
-        foreach (PathNode child in children)
-        {
-            if (nodesToCheck.Contains(child) || checkedNodes.Contains(child))
-                continue;
-            nodesToCheck.Add(child);
-        }
     }
 
     private static bool NodesContainsPosition(List<PathNode> nodes, Vector2Int position)

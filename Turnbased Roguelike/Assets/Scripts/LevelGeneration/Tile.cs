@@ -8,8 +8,14 @@ public class Tile
     Entity _entity;
     GameObject _item;
 
-    public Entity Entity => _entity;
+    public TileType Type => _type;
     public bool IsWalkable => _type == TileType.Walkable && !_entity;
+
+    public bool TryGetEntity(out Entity entity)
+    {
+        entity = _entity;
+        return entity != null;
+    }
 
     public void SetTileType(TileType type)
     {
