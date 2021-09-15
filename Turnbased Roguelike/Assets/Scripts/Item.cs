@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Item : Entity
 {
-    // Meant to be empty
+    public int price;
+    public int type;
+    public int effect;
     // Start is called before the first frame update
     void Start()
-    { }
+    {
+        
+    }
 
     // Update is called once per frame
     void Update()
-    { }
+    {
+        
+    }
 }
