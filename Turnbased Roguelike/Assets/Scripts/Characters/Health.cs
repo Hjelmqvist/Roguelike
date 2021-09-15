@@ -13,6 +13,8 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
+        _health = _maxHealth;
+
         // Invoke the event once on start so that other scripts can get the values without a reference.
         OnHealthChanged.Invoke(this);
     }

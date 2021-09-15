@@ -73,7 +73,9 @@ public static class Pathfinding
             Vector2Int position = node.Position + dir;
             PathNode newNode = new PathNode(position, start, end, node);
 
-            if (!grid.InRange(position) || nodesToCheck.Contains(newNode) || checkedNodes.Contains(newNode))
+            if (!grid.InRange(position) || grid[position.x, position.y].Type == Tile.TileType.NotWalkable || 
+                nodesToCheck.Contains(newNode) || 
+                checkedNodes.Contains(newNode))
                 continue;
 
             children.Add(newNode);

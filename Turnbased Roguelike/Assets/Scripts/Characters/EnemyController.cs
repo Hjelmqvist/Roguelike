@@ -17,7 +17,17 @@ public class EnemyController : MonoBehaviour
     public void AddEnemy(Enemy enemy)
     {
         if (enemy)
+        {
             _enemies.Add(enemy);
+            enemy.OnEntityDeath.AddListener(OnEntityDeath);
+        }
+
+    }
+
+    private void OnEntityDeath(Entity entity)
+    {
+        if (entity is Enemy enemy)
+            _enemies.Remove(enemy);
     }
 
     public void StartEnemyTurn(Entity player)

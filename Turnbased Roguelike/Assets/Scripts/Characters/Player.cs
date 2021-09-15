@@ -12,9 +12,14 @@ public class Player : Entity
 
     public UnityEvent<int> OnGoldChanged;
 
-    public void Attack(Tile[,] tiles)
+    private void Start()
     {
-        Attack(tiles, CurrentWeapon);
+        OnGoldChanged.Invoke(_gold);
+    }
+
+    public bool Attack(Tile[,] tiles)
+    {
+        return Attack(tiles, CurrentWeapon);
     }
 
     public void ModifyGold(int amount)

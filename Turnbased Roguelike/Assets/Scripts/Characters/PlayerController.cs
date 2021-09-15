@@ -34,27 +34,38 @@ public partial class PlayerController : MonoBehaviour
         if (!_player || !_isPlayerTurn || Time.time < _lastMoveTime + (1f / _actionsPerSecond))
             return;
 
+        if (TryMove() || TryAttack())
+            return;
+    }
+
+    /// <summary>
+    /// Returns true if player moved or attacked
+    /// </summary>
+    private bool TryMove()
+    {
         foreach (InputDirection inputDirection in _inputDirections)
         {
-            if (Input.GetKeyDown(inputDirection.Key) && _player.TryMovePosition(_levelGenerator.Tiles, inputDirection.Direction))
+            if (Input.GetKeyDown(inputDirection.Key) &&
+                (_player.TryMovePosition(_levelGenerator.Tiles, inputDirection.Direction) || // Try to move in the direction
+                 _player.Attack(_levelGenerator.Tiles)))                                     // Else try to attack in the direction)
             {
                 _lastMoveTime = Time.time;
                 EndPlayerTurn();
-                return;
+                return true;
             }
         }
+        return false;
+    }
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            
-        }
-
+    private bool TryAttack()
+    {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _player.Attack(_levelGenerator.Tiles);
             EndPlayerTurn();
-            return;
-        }    
+            return true;
+        }
+        return false;
     }
 
     public void SetPlayer(Player player)

@@ -338,6 +338,14 @@ PrefabInstance:
       propertyPath: _levelGenerator
       value: 
       objectReference: {fileID: 772857729}
+    - target: {fileID: 1659886969642671654, guid: 3356f1bb26d1443458d1ae2f400b84e0, type: 3}
+      propertyPath: _secondsBeforeMakingMoves
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1659886969642671654, guid: 3356f1bb26d1443458d1ae2f400b84e0, type: 3}
+      propertyPath: _secondsBetweenEnemyMoves
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7463946934013579560, guid: 3356f1bb26d1443458d1ae2f400b84e0, type: 3}
       propertyPath: _upKey
       value: 119
