@@ -32,10 +32,10 @@ public class GenScript : MonoBehaviour
     public GameObject exit;
     public Player player;
     public GameObject saveObject; //Bad name
-    public GameObject[] items;
     public Enemy[] enemies;
     public GameObject[] floorVariants;
     public GameObject[] wallVariants;
+    public Entity[] storeItems;
     private int _currentLevel;
     private float _divisionHandler;
     private int _enemyTotalChance;
@@ -154,6 +154,33 @@ public class GenScript : MonoBehaviour
             }
         }
     }
+    void ShopObjectPlacement()
+    {
+        for (int x = 1; x < _columns - 1; x++)
+        {
+            for (int y = 1; y < _rows - 1; y++)
+            {
+                if (x == 1 && y == 1)
+                {
+                    Player playerObject = Instantiate(player, new Vector2(x, y), Quaternion.identity);
+                    playerObject.SetTile(_tiles[x, y]);
+                    playerObject.SetWorldPosition(new Vector2Int(x, y));
+                    playerController.SetPlayer(playerObject);
+                }
+                else if (x == _columns - 2 && y == _rows - 2)
+                {
+                    GameObject exitObject = Instantiate(exit, new Vector2(x,y), Quaternion.identity);
+                }
+                else if(x % 3 == 0 && y == _rows - 4)
+                {
+                    Entity item = Instantiate(storeItems[Random.Range(0, storeItems.Length)], new Vector2(x,y), Quaternion.identity);
+                    item.transform.SetParent(_boardHolder); 
+                    item.SetTile(_tiles[x, y]);
+                    item.SetWorldPosition(new Vector2Int(x, y));
+                }
+            }
+        }
+    }
     void CheckIfObstructed()
     {
         if(!Pathfinding.TryGetPath(_tiles, new Vector2Int(2, 2), new Vector2Int(_columns - 3, _rows - 3),
@@ -164,25 +191,29 @@ public class GenScript : MonoBehaviour
     }
     void ShopSetup()
     {
-        for (int x = 0; x < baseColumns; x++)
+        _columns = 15 + 1;
+        _rows = 10;
+        _tiles = new Tile[_columns, _rows];
+        
+        for (int x = 0; x < _columns; x++)
         {
-            for (int y = 0; y < baseRows; y++)
+            for (int y = 0; y < _rows; y++)
             {
                 _tiles[x, y] = new Tile();
             }
         }
-        
+        BoardSetup();
+        ShopObjectPlacement();
     }
     // Start is called before the first frame update
     void Start()
     {
         HandleSaveFile();
-        /*
         if (_currentLevel % 3 == 0 && _currentLevel != 0)
         {
             ShopSetup();
         }
-        else*/
+        else
         {
             Initialize();
             BoardSetup();
