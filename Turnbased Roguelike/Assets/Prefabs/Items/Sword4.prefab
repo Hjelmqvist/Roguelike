@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 7173067723017192889}
   - component: {fileID: 7173067723017192890}
   m_Layer: 0
-  m_Name: TestItem
+  m_Name: Sword4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66547d9fd90854a4ca83328a045ab385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 0
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -214,3 +214,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yOffset: 0
+  OnEntityDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  price: 100
+  weapon: 1
+  effect: 40

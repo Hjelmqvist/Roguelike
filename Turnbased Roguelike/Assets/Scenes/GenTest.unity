@@ -184,6 +184,9 @@ MonoBehaviour:
   - {fileID: 2379916648009328508, guid: 889a09d241a73d34aa55c08d37cc7d63, type: 3}
   - {fileID: 3699363338465200345, guid: 0d0c87b7d70c5f94290db18dc8ff7053, type: 3}
   storeItems:
+  - {fileID: 9170761832510094577, guid: 564b5c0d5b21d3b40a6ce1a2005ae725, type: 3}
+  - {fileID: 7501648031885917831, guid: a3a05ef82254aa744893b78bbd4cc7f9, type: 3}
+  - {fileID: 1949312016555859498, guid: 1046d97a0ade0c8469f391814ba990aa, type: 3}
   - {fileID: 7173067723017192890, guid: 033b2fc64e896bb4f994da87b3291877, type: 3}
   playerController: {fileID: 1218369702}
   enemyController: {fileID: 1221303983}

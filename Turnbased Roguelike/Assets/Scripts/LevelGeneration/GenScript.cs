@@ -156,6 +156,7 @@ public class GenScript : MonoBehaviour
     }
     void ShopObjectPlacement()
     {
+        int itemSelection = 0;
         for (int x = 1; x < _columns - 1; x++)
         {
             for (int y = 1; y < _rows - 1; y++)
@@ -173,10 +174,13 @@ public class GenScript : MonoBehaviour
                 }
                 else if(x % 3 == 0 && y == _rows - 4)
                 {
-                    Entity item = Instantiate(storeItems[Random.Range(0, storeItems.Length)], new Vector2(x,y), Quaternion.identity);
-                    item.transform.SetParent(_boardHolder); 
+                    Entity item = Instantiate(storeItems[itemSelection], new Vector2(x,y), Quaternion.identity);
+                    item.transform.SetParent(_boardHolder);
+                    TextMesh displayedPrice = item.GetComponentInChildren<TextMesh>();
+                    displayedPrice.text = item.GetComponent<Item>().price.ToString();
                     item.SetTile(_tiles[x, y]);
                     item.SetWorldPosition(new Vector2Int(x, y));
+                    itemSelection += 1;
                 }
             }
         }
