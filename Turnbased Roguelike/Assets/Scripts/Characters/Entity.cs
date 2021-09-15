@@ -1,10 +1,13 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(SpriteRenderer), typeof(Health))]
+[RequireComponent(typeof(Health), typeof(SpriteRenderer))]
 public abstract class Entity : MonoBehaviour
 {
-    [SerializeField] float yOffset; // Different sprite sizes etc.
+    [SerializeField] float _yOffset; // Different sprite sizes etc.
+    [SerializeField] float _attackDuration = 0.1f;
+    [SerializeField] float _attackJumpDistance = 0.5f;
 
     protected Vector2Int _currentPosition = new Vector2Int();
     protected Vector2Int _currentDirection = new Vector2Int();
@@ -18,8 +21,8 @@ public abstract class Entity : MonoBehaviour
 
     protected virtual void Awake()
     {
-        SpriteRenderer = GetComponent<SpriteRenderer>();
         Health = GetComponent<Health>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void OnHealthChanged(Health health)
@@ -64,7 +67,7 @@ public abstract class Entity : MonoBehaviour
     public void SetWorldPosition(Vector2Int position)
     {
         _currentPosition = position;
-        Vector3 worldPosition = new Vector3(_currentPosition.x, _currentPosition.y + yOffset, transform.position.z);
+        Vector3 worldPosition = new Vector3(_currentPosition.x, _currentPosition.y + _yOffset, transform.position.z);
         transform.position = worldPosition;
     }
 
@@ -82,6 +85,8 @@ public abstract class Entity : MonoBehaviour
     protected bool Attack(Tile[,] tiles, Attack attack)
     {
         bool hitSomething = false;
+        StopAllCoroutines();
+        StartCoroutine(AttackCoroutine());
         for (int i = 1; i <= attack.Range; i++)
         {
             Vector2Int posToCheck = _currentPosition + _currentDirection * i;
@@ -96,5 +101,26 @@ public abstract class Entity : MonoBehaviour
             }
         }
         return hitSomething;
+    }
+
+    IEnumerator AttackCoroutine()
+    {
+        float duration = _attackDuration / 2;
+        Vector2 startPosition = transform.position;
+        Vector2 endPosition = transform.position + (Vector3)(Vector2)_currentDirection * _attackJumpDistance;
+
+        for (float time = 0; time < duration; time += Time.deltaTime)
+        {
+            transform.position = Vector2.Lerp(startPosition, endPosition, time / duration);
+            yield return null;
+        }
+
+        for (float time = 0; time < duration; time += Time.deltaTime)
+        {
+            transform.position = Vector2.Lerp(endPosition, startPosition, time / duration);
+            yield return null;
+        }
+
+        transform.position = startPosition;
     }
 }

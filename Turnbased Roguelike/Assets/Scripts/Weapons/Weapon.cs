@@ -6,9 +6,15 @@ public class Weapon : Item
 
     public Attack WeaponAttack => _attack;
 
-    public void Pickup(Transform parent)
+    public override void Interact(Player player)
+    {
+        player.EquipWeapon(this);
+    }
+
+    public void Equip(Transform parent)
     {
         transform.SetParent(parent);
+        transform.localPosition = Vector2.zero;
 
         // Match the player characters current direction
         Vector3 scale = transform.localScale;

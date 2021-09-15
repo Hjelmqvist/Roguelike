@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1909103201
+  m_SortingLayerID: 377023543
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7080439d01fdfb642925d4f3276de8e4, type: 3}
@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price: 50
+  Type: 
 --- !u!114 &5911743907241326169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4469d8b61beeaf46a26709b14c71d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  price: 0
+  Type: 
   _attack:
     _attackName: Punch
     _damage: 3
@@ -171,7 +174,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e3265ab4bf004d28a9537516768c1c75, type: 3}
+  - {fileID: 2100000, guid: bc6ed22c09318ca4b8113ba87cb6ac6c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

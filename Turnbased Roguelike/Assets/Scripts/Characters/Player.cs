@@ -3,6 +3,7 @@ using UnityEngine.Events;
 
 public class Player : Entity
 {
+    [SerializeField] Transform _weaponParent;
     [SerializeField] Weapon _heldWeapon;
     [SerializeField] Attack _basicAttack;
     [SerializeField] int _gold;
@@ -20,6 +21,14 @@ public class Player : Entity
     public bool Attack(Tile[,] tiles)
     {
         return Attack(tiles, CurrentWeapon);
+    }
+
+    public void EquipWeapon(Weapon weapon)
+    {
+        if (_heldWeapon)
+            Destroy(_heldWeapon.gameObject);
+        _heldWeapon = weapon;
+        _heldWeapon.Equip(_weaponParent);
     }
 
     public void ModifyGold(int amount)
