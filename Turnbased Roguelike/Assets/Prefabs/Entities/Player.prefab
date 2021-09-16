@@ -649,7 +649,7 @@ MonoBehaviour:
     _range: 1
     _isPiercing: 0
   _gold: 0
-  OnGoldChanged:
+  onGoldChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5794501659978373326}
