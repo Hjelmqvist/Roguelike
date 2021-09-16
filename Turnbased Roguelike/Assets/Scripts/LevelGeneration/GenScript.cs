@@ -1,14 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.IMGUI.Controls;
 using Random = UnityEngine.Random;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using Object = UnityEngine.Object;
 
 public class GenScript : MonoBehaviour
 {
@@ -16,24 +8,28 @@ public class GenScript : MonoBehaviour
     public int baseRows;
     
     public int currentLevel;
-    public int wallChance;
-    public int maxEnemyBase;
-    public ExitScript exit;
-    public ShopItem shopItemHolder;
-    public Enemy[] enemies;
+    public int wallChance;  // Chance for a wall to spawn instead of a floor, on a 1/X basis
+    public int maxEnemyBase; // base number of enemies, affected by currentlevel * 0.5
+    
     public GameObject[] floorVariants;
     public GameObject[] wallVariants;
-    public Item[] storeItems;
-    private float _divisionHandler;
+    
+    public ExitScript exit;
+    public Enemy[] enemies;
     public Player playerObject;
-    private Transform _boardHolder;
+    
+    public Item[] shopItems;  // Items that can appear in a shop
+    public ShopItem shopItemHolder; //Object that holds items and handles transactions in shops
+    
+    private Transform _boardHolder; // Object to hold all other objects and tiles
     private Tile[,] _tiles;
+    
+    private float _divisionHandler; // Float to handle multiplication and division
     private int _columns;
     private int _rows;
     private int _maxEnemyAmount;
-
-    public Tile[,] Tiles => _tiles;
     
+    public Tile[,] Tiles => _tiles;
     
     [SerializeField] PlayerController playerController;
     [SerializeField] EnemyController enemyController;
@@ -52,12 +48,12 @@ public class GenScript : MonoBehaviour
         }
         if (currentLevel != 0)
         {
-            _divisionHandler = (float) (maxEnemyBase * 0.5 * currentLevel);
+            _divisionHandler = (float) (maxEnemyBase * 0.7 * currentLevel);
             _maxEnemyAmount = (int) _divisionHandler;
         }
         else
         {
-            _maxEnemyAmount = maxEnemyBase;
+            _maxEnemyAmount = maxEnemyBase / 2;
         }
     }
     
@@ -92,13 +88,13 @@ public class GenScript : MonoBehaviour
                     PlayerPlace(x,y);
                 }
                 else if (x == 2 && y == 1 || x == 2 && y == 2 || x == 1 && y == 2)
-                {}
+                {} // to be free of walls
                 else if (x == _columns - 2 && y == _rows - 2)
                 {
                     ExitPlace(x,y);
                 }
                 else if (x == _columns - 3 && y == _rows - 2 || x == _columns - 3 && y == _rows - 3 || x == _columns - 2 && y == _rows - 3)
-                {}
+                {} // to be free of walls
                 else if (Random.Range(0, wallChance) == 0)
                 {
                    WallPlace(x,y);
@@ -106,7 +102,7 @@ public class GenScript : MonoBehaviour
             }
         }
     }
-    private void EnemyPlacement()
+    private void EnemyPlacement() // Places enemies randomly
     {
 
         for (int enemyCount = 0; enemyCount < _maxEnemyAmount; enemyCount++)
@@ -114,15 +110,15 @@ public class GenScript : MonoBehaviour
             int randomX = Random.Range(1, _columns - 1);
             int randomY = Random.Range(1, _rows - 1);
             Tile randomTile = Tiles[randomX, randomY];
-            if (randomTile.IsWalkable == true && !randomTile.TryGetEntity(out Entity entity))
+            if (randomTile.IsWalkable && !randomTile.TryGetEntity(out Entity entity)) // if a tile is already occupied, do not place enemy
             {
                 Enemy baddie = Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector2(randomX, randomY), Quaternion.identity);
                 baddie.transform.SetParent(_boardHolder);
                 baddie.SetTile(randomTile);
                 baddie.SetWorldPosition(new Vector2Int(randomX,randomY));
                 enemyController.AddEnemy(baddie);
-            }
-        }
+            } // the fact that not all enemies need to spawn is intentional.
+        }  
     }
     private void ShopObjectPlacement()
     {
@@ -139,28 +135,30 @@ public class GenScript : MonoBehaviour
                 {
                     ExitPlace(x,y);
                 }
-                else if(x % 3 == 0 && y == _rows - 5)
+                else if(x % 3 == 0 && y == _rows - 5) // only works with the current amount of items and fixed size of the shop
                 {
-                    ShopItem shopItem = Instantiate(shopItemHolder, new Vector2(x,y), Quaternion.identity);
+                    ShopItem shopItem = Instantiate(shopItemHolder, new Vector2(x,y), Quaternion.identity);  // Spawns object to hold item
                     shopItem.transform.SetParent(_boardHolder);
-                    Item itemToSell = Instantiate(storeItems[itemSelection], new Vector2(x, y), Quaternion.identity);
+                    Item itemToSell = Instantiate(shopItems[itemSelection], new Vector2(x, y), Quaternion.identity); // spawns item
                     itemToSell.transform.SetParent(_boardHolder);
-                    shopItem._itemToSell = itemToSell;
-                    TextMesh displayedPrice = shopItem.GetComponentInChildren<TextMesh>();
-                    displayedPrice.text = shopItem._itemToSell.Price.ToString();
+                    shopItem._itemToSell = itemToSell;  // sets item to shopObject
+                    TextMesh displayedPrice = shopItem.GetComponentInChildren<TextMesh>(); 
+                    displayedPrice.text = shopItem._itemToSell.Price.ToString();  // Displays price
                     _tiles[x, y].SetTileType(Tile.TileType.Walkable);
                     _tiles[x, y].SetItem(shopItem);
-                    itemSelection += 1;
+                    itemSelection += 1; // increments through list
                 }
             }
         }
     }
-    private void CheckIfObstructed()
-    {
+    private void CheckIfObstructed()  // checks to see if the generated level is passable
+    {                                 // about 2.5% of generated levels are impassable
         if(!Pathfinding.TryGetPath(_tiles, new Vector2Int(2, 2), new Vector2Int(_columns - 3, _rows - 3),
             out List<Vector2Int> path))
-        {
-           MapGeneration();
+        { 
+            Destroy(_boardHolder.gameObject); 
+            enemyController.GetComponent<EnemyController>().ClearEnemyList();
+            MapGeneration();  //does not increase currentlevel
         }
     }
 
@@ -193,9 +191,9 @@ public class GenScript : MonoBehaviour
         enemyController.GetComponent<EnemyController>().ClearEnemyList();
         MapGeneration();
     }
-   private void ShopSetup()
+   private void ShopSetup() // fixed size
     {
-        _columns = 15 + 1;
+        _columns = 16;
         _rows = 10;
         _tiles = new Tile[_columns, _rows];
         
@@ -209,10 +207,9 @@ public class GenScript : MonoBehaviour
         BoardSetup();
         ShopObjectPlacement();
     }
-    // Start is called before the first frame update
-    private void MapGeneration()
+   private void MapGeneration()
     {
-        if (currentLevel % 3 == 0 && currentLevel != 0)
+        if (currentLevel % 3 == 0 && currentLevel != 0)  // every level divisible by 3 is a shop
         {
             ShopSetup();
         }

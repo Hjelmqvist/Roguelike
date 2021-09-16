@@ -155,5 +155,5 @@ MonoBehaviour:
     _damage: 2
     _range: 1
     _isPiercing: 0
-  _chaseRange: 5
+  _chaseRange: 8
   goldValue: 2
