@@ -23,14 +23,19 @@ public class Player : Entity
         return Attack(tiles, CurrentWeapon);
     }
 
-    public bool Interact(Tile[,] tiles, Player player)
+    public bool Interact()
     {
-        Item interacted = _currentTile.TryGetItem();
-        if (interacted != null)
+        if (_currentTile != null)
         {
-            interacted.Interact(player);
+            _currentTile.Interact(this);
             return true;
         }
+        //Item interacted = _currentTile.TryGetItem();
+        //if (interacted != null)
+        //{
+        //    interacted.Interact(player);
+        //    return true;
+        //}
 
         return false;
     }

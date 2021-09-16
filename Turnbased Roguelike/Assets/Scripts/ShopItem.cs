@@ -1,18 +1,15 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class ShopItem : Item
 {
-   [NonSerialized] public Item Item;
+   [NonSerialized] public Item _itemToSell;
 
     public override bool Interact(Player player)
     {
-        if (Item.price <= player.Gold)
+        if (_itemToSell.Price <= player.Gold)
         {
-            player.ModifyGold(-Item.price);
-            Item.Interact(player); 
+            player.ModifyGold(-_itemToSell.Price);
+            _itemToSell.Interact(player); 
             Destroy(gameObject);
             return true;
         }

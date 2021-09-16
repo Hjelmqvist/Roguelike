@@ -1,9 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 public class Item : MonoBehaviour
 {
-    public int price;
+    [SerializeField] string itemName;
+    // public
+    [SerializeField] int price;
+
+    public string ItemName => itemName;
+    public int Price => price;
 
     public virtual bool Interact(Player player)
     {

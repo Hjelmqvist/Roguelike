@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +9,9 @@ public partial class PlayerController : MonoBehaviour
     [SerializeField] KeyCode _upKey = KeyCode.W, 
                              _leftKey = KeyCode.A, 
                              _downKey = KeyCode.S, 
-                             _rightKey = KeyCode.D;
+                             _rightKey = KeyCode.D,
+                             _attackKey = KeyCode.Space,
+                             _interactKey = KeyCode.E;
 
     float _lastMoveTime = float.MinValue;
     bool _isPlayerTurn = true;
@@ -35,7 +36,11 @@ public partial class PlayerController : MonoBehaviour
             return;
 
         if (TryMove() || TryAttack() || TryInteract())
+        {
+            _lastMoveTime = Time.time;
+            EndPlayerTurn();
             return;
+        }       
     }
 
     /// <summary>
@@ -49,8 +54,6 @@ public partial class PlayerController : MonoBehaviour
                 (_player.TryMovePosition(_levelGenerator.Tiles, inputDirection.Direction) || // Try to move in the direction
                  _player.Attack(_levelGenerator.Tiles)))                                     // Else try to attack in the direction)
             {
-                _lastMoveTime = Time.time;
-                EndPlayerTurn();
                 return true;
             }
         }
@@ -59,10 +62,9 @@ public partial class PlayerController : MonoBehaviour
 
     private bool TryAttack()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(_attackKey))
         {
             _player.Attack(_levelGenerator.Tiles);
-            EndPlayerTurn();
             return true;
         }
         return false;
@@ -70,9 +72,9 @@ public partial class PlayerController : MonoBehaviour
 
     private bool TryInteract()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(_interactKey))
         {
-            _player.Interact(_levelGenerator.Tiles, _player);
+            _player.Interact();
             return true;
         }
         return false;

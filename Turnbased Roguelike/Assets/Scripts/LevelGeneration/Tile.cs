@@ -1,20 +1,17 @@
-using UnityEngine;
-
 public class Tile
 {
     public enum TileType { Walkable, NotWalkable }
 
-    TileType _type;
     Entity _entity;
     Item _item;
+    TileType _type;
 
     public TileType Type => _type;
     public bool IsWalkable => _type == TileType.Walkable && !_entity;
 
-    public bool TryGetEntity(out Entity entity)
+    public void SetItem(Item item)
     {
-        entity = _entity;
-        return entity != null;
+        _item = item;
     }
 
     public void SetTileType(TileType type)
@@ -22,15 +19,22 @@ public class Tile
         _type = type;
     }
 
-    public void SetItem(Item item)
+    public bool TryGetEntity(out Entity entity)
     {
-        _item = item;
+        entity = _entity;
+        return entity != null;
     }
 
-    public Item TryGetItem()
+    //public Item TryGetItem()
+    //{
+    //    Item item = _item;
+    //    return item;
+    //}
+
+    public virtual void Interact(Player player)
     {
-        Item item = _item;
-        return item;
+        if (_item != null)
+            _item.Interact(player);
     }
 
     public void EnterTile(Entity entity)

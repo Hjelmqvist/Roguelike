@@ -8,7 +8,6 @@ public class Enemy : Entity
 
     public void MakeMove(Tile[,] tiles, Entity player)
     {
-        Vector2Int[] directions = { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
         float distanceToPlayer = Vector2Int.Distance(_currentPosition, player.Position);
 
         if (distanceToPlayer <= _enemyAttack.Range) // Close enough to attack
@@ -18,12 +17,11 @@ public class Enemy : Entity
         }
         else if (distanceToPlayer <= _chaseRange) // Close enough to chase
         {
-            Debug.Log("move to player");
             TryMoveTowardPlayer(tiles, player);
         }
         else // Move randomly
         {
-            
+            MoveInRandomDirection(tiles);
         }
     }
 
@@ -36,5 +34,19 @@ public class Enemy : Entity
             return true;
         }
         return false;
+    }
+
+    private void MoveInRandomDirection(Tile[,] tiles)
+    {
+        List<Vector2Int> directions = new List<Vector2Int>() { Vector2Int.up, Vector2Int.left, Vector2Int.down, Vector2Int.right };
+        for (int i = 0; i < directions.Count; i++)
+        {
+            int randomIndex = Random.Range(0, directions.Count);
+            Vector2Int dir = directions[randomIndex];
+            directions.RemoveAt(randomIndex);
+
+            if (TryMovePosition(tiles, dir))
+                break;
+        }
     }
 }
