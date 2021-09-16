@@ -6,9 +6,10 @@ public partial class PlayerController : MonoBehaviour
     [SerializeField] GenScript _levelGenerator;
     [SerializeField] Player _player;
     [SerializeField] float _actionsPerSecond = 4f;
-    [SerializeField] KeyCode _upKey = KeyCode.W, 
-                             _leftKey = KeyCode.A, 
-                             _downKey = KeyCode.S, 
+    [SerializeField]
+    KeyCode _upKey = KeyCode.W,
+                             _leftKey = KeyCode.A,
+                             _downKey = KeyCode.S,
                              _rightKey = KeyCode.D,
                              _attackKey = KeyCode.Space,
                              _interactKey = KeyCode.E;
@@ -40,7 +41,7 @@ public partial class PlayerController : MonoBehaviour
             _lastMoveTime = Time.time;
             EndPlayerTurn();
             return;
-        }       
+        }
     }
 
     /// <summary>
@@ -72,11 +73,8 @@ public partial class PlayerController : MonoBehaviour
 
     private bool TryInteract()
     {
-        if (Input.GetKeyDown(_interactKey))
-        {
-            _player.Interact();
+        if (Input.GetKeyDown(_interactKey) && _player.Interact())
             return true;
-        }
         return false;
     }
 

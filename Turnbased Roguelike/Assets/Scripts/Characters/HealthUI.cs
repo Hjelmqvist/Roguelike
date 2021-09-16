@@ -13,6 +13,6 @@ public class HealthUI : MonoBehaviour
 
     public void SetHealth(Health health)
     {
-        _text.text = $"{health.CurrentHealth}/{health.MaxHealth}";
+        _text.text = $"{health.CurrentHealth}";
     }
 }
