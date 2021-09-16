@@ -99,6 +99,6 @@ MonoBehaviour:
   price: 50
   _attack:
     _attackName: Slice
-    _damage: 30
-    _range: 1
-    _isPiercing: 0
+    _damage: 18
+    _range: 2
+    _isPiercing: 1

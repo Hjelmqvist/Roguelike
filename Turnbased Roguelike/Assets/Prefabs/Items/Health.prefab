@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 9170761832510094579}
   - component: {fileID: 1970621627632181658}
   m_Layer: 0
-  m_Name: Armour
+  m_Name: Health
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

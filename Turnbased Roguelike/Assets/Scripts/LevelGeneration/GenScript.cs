@@ -19,7 +19,6 @@ public class GenScript : MonoBehaviour
     public int wallChance;
     public int enemyBaseChance;
     public ExitScript exit;
-    public Player player;
     public ShopItem shopItemHolder;
     public Enemy[] enemies;
     public GameObject[] floorVariants;
@@ -27,10 +26,9 @@ public class GenScript : MonoBehaviour
     public Item[] storeItems;
     private float _divisionHandler;
     private int _enemyTotalChance;
-    private Player _playerObject;
+    public Player playerObject;
     private Transform _boardHolder;
     private Tile[,] _tiles;
-    private static bool _saved;
     private int _columns;
     private int _rows;
 
@@ -159,13 +157,9 @@ public class GenScript : MonoBehaviour
 
    private void PlayerPlace(int x, int y)
     {
-        if (_playerObject == null)
-        {
-            _playerObject = Instantiate(player, new Vector2(x, y), Quaternion.identity);
-        }
-        _playerObject.SetTile(_tiles[x, y]);
-        _playerObject.SetWorldPosition(new Vector2Int(x, y));
-        playerController.SetPlayer(_playerObject);
+        playerObject.SetTile(_tiles[x, y]);
+        playerObject.SetWorldPosition(new Vector2Int(x, y));
+        playerController.SetPlayer(playerObject);
     }
 
    private void ExitPlace(int x, int y)

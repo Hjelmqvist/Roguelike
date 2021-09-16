@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField] GenScript _levelGenerator;
+    [SerializeField] Player _player;
     [SerializeField] float _secondsBeforeMakingMoves = 1;
     [SerializeField] float _secondsBetweenEnemyMoves = 1;
     [SerializeField] float _secondsBeforeEndingTurn = 1;
@@ -13,6 +14,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] List<Enemy> _enemies = new List<Enemy>();
 
     public UnityEvent OnEnemyTurnEnded;
+    
 
     public void AddEnemy(Enemy enemy)
     {
@@ -32,7 +34,10 @@ public class EnemyController : MonoBehaviour
     private void OnEntityDeath(Entity entity)
     {
         if (entity is Enemy enemy)
+        {
+            _player.ModifyGold(enemy.goldValue);
             _enemies.Remove(enemy);
+        }
     }
 
     public void StartEnemyTurn(Entity player)

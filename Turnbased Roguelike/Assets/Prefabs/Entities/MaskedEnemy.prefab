@@ -156,3 +156,4 @@ MonoBehaviour:
     _range: 1
     _isPiercing: 0
   _chaseRange: 5
+  goldValue: 2

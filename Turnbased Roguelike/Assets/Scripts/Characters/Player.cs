@@ -11,18 +11,16 @@ public class Player : Entity
     public Attack CurrentWeapon => _heldWeapon ? _heldWeapon.WeaponAttack : _basicAttack;
     public int Gold => _gold;
 
-    public UnityEvent<int> OnGoldChanged;
+    public UnityEvent<int> onGoldChanged;
 
     private void Start()
     {
-        OnGoldChanged.Invoke(_gold);
+        onGoldChanged.Invoke(_gold);
     }
-
     public bool Attack(Tile[,] tiles)
     {
         return Attack(tiles, CurrentWeapon);
     }
-
     public bool Interact()
     {
         if (_currentTile != null)
@@ -32,7 +30,6 @@ public class Player : Entity
         }
         return false;
     }
-
     public void Heal()
     {
         Health.ModifyHealth(+200);
@@ -48,6 +45,6 @@ public class Player : Entity
     public void ModifyGold(int amount)
     {
         _gold = Mathf.Clamp(_gold + amount, 0, 999);
-        OnGoldChanged.Invoke(_gold);
+        onGoldChanged.Invoke(_gold);
     }
 }

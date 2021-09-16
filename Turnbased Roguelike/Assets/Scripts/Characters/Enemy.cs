@@ -5,6 +5,8 @@ public class Enemy : Entity
 {
     [SerializeField] Attack _enemyAttack;
     [SerializeField] float _chaseRange = 5;
+    
+    public int goldValue;
 
     public void MakeMove(Tile[,] tiles, Entity player)
     {

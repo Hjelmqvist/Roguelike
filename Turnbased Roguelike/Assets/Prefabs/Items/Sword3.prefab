@@ -99,6 +99,6 @@ MonoBehaviour:
   price: 25
   _attack:
     _attackName: Saw
-    _damage: 12
+    _damage: 9
     _range: 1
     _isPiercing: 0
