@@ -10,7 +10,7 @@ public abstract class Entity : MonoBehaviour
     [SerializeField] float _attackJumpDistance = 0.5f;
 
     protected Vector2Int _currentPosition = new Vector2Int();
-    protected Vector2Int _currentDirection = new Vector2Int();
+    protected Vector2Int _currentDirection = Vector2Int.right;
     protected Tile _currentTile;
 
     public Vector2Int Position => _currentPosition;
@@ -32,7 +32,7 @@ public abstract class Entity : MonoBehaviour
             _currentTile.LeaveTile();
             OnEntityDeath.Invoke(this);
             Destroy(gameObject);
-        }    
+        }
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public abstract class Entity : MonoBehaviour
         if (_currentTile != null)
             _currentTile.LeaveTile();
         _currentTile = tile;
-         tile.EnterTile(this);
+        tile.EnterTile(this);
     }
 
     /// <summary>
@@ -107,20 +107,24 @@ public abstract class Entity : MonoBehaviour
     {
         float duration = _attackDuration / 2;
         Vector2 startPosition = transform.position;
-        Vector2 endPosition = transform.position + (Vector3)(Vector2)_currentDirection * _attackJumpDistance;
+        Vector2 endPosition = transform.position + (Vector3)(Vector2)_currentDirection * _attackJumpDistance; // Cursed typecasting
+        bool movingForward = true;
 
-        for (float time = 0; time < duration; time += Time.deltaTime)
+        for (float time = 0; time <= duration; time += Time.deltaTime)
         {
-            transform.position = Vector2.Lerp(startPosition, endPosition, time / duration);
+            if (movingForward)
+            {
+                transform.position = Vector2.Lerp(startPosition, endPosition, time / duration);
+                if (time >= duration)
+                {
+                    time = 0;
+                    movingForward = false;
+                }
+            }
+            else
+                transform.position = Vector2.Lerp(endPosition, startPosition, time / duration);
             yield return null;
         }
-
-        for (float time = 0; time < duration; time += Time.deltaTime)
-        {
-            transform.position = Vector2.Lerp(endPosition, startPosition, time / duration);
-            yield return null;
-        }
-
         transform.position = startPosition;
     }
 }

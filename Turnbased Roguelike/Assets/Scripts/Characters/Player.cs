@@ -30,13 +30,6 @@ public class Player : Entity
             _currentTile.Interact(this);
             return true;
         }
-        //Item interacted = _currentTile.TryGetItem();
-        //if (interacted != null)
-        //{
-        //    interacted.Interact(player);
-        //    return true;
-        //}
-
         return false;
     }
 

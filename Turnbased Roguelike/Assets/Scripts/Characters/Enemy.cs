@@ -15,12 +15,13 @@ public class Enemy : Entity
             SetDirection(player.Position - _currentPosition);
             Attack(tiles, _enemyAttack);
         }
-        else if (distanceToPlayer <= _chaseRange) // Close enough to chase
+        else
         {
-            TryMoveTowardPlayer(tiles, player);
-        }
-        else // Move randomly
-        {
+            // Move towards player if possible
+            if (distanceToPlayer <= _chaseRange && TryMoveTowardPlayer(tiles, player))
+                return;
+
+            // Else just move randomly
             MoveInRandomDirection(tiles);
         }
     }
@@ -30,8 +31,10 @@ public class Enemy : Entity
         if (Pathfinding.TryGetPath(tiles, _currentPosition, player.Position, out List<Vector2Int> path))
         {
             if (TryMovePosition(tiles, path[1] - _currentPosition))
+            {
                 SetDirection(player.Position - _currentPosition);
-            return true;
+                return true;
+            }
         }
         return false;
     }

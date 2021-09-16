@@ -1,5 +1,5 @@
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class GoldUI : MonoBehaviour
