@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +12,7 @@ public static class Pathfinding
 
         while (nodesToCheck.Count > 0)
         {
+            // Get the first node to have something to start comparing with
             PathNode currentNode = nodesToCheck[0];
             int currentIndex = 0;
             GetNodeWithLowestFCost(nodesToCheck, ref currentNode, ref currentIndex);
@@ -81,15 +81,5 @@ public static class Pathfinding
             children.Add(newNode);
         }
         return children;
-    }
-
-    private static bool NodesContainsPosition(List<PathNode> nodes, Vector2Int position)
-    {
-        foreach (PathNode node in nodes)
-        {
-            if (node.Position == position)
-                return true;
-        }
-        return false;
     }
 }

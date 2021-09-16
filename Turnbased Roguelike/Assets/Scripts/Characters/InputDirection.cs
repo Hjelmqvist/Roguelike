@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
 
-public partial class PlayerController
+public class InputDirection
 {
-    public class InputDirection
+    KeyCode _key;
+    Vector2Int _direction;
+
+    public KeyCode Key => _key;
+    public Vector2Int Direction => _direction;
+
+    public InputDirection(KeyCode key, Vector2Int direction)
     {
-        KeyCode _key;
-        Vector2Int _direction;
-
-        public KeyCode Key => _key;
-        public Vector2Int Direction => _direction;
-
-        public InputDirection(KeyCode key, Vector2Int direction)
-        {
-            _key = key;
-            _direction = direction;
-        }
+        _key = key;
+        _direction = direction;
     }
 }

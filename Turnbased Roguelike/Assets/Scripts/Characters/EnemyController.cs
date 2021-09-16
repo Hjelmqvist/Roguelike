@@ -21,7 +21,6 @@ public class EnemyController : MonoBehaviour
             _enemies.Add(enemy);
             enemy.OnEntityDeath.AddListener(OnEntityDeath);
         }
-
     }
 
     public void ClearEnemyList()

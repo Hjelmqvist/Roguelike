@@ -4,10 +4,9 @@ public class Tile
 
     Entity _entity;
     Item _item;
-    TileType _type;
 
-    public TileType Type => _type;
-    public bool IsWalkable => _type == TileType.Walkable && !_entity;
+    public TileType Type { get; private set; }
+    public bool IsWalkable => Type == TileType.Walkable && !_entity;
 
     public void SetItem(Item item)
     {
@@ -16,7 +15,7 @@ public class Tile
 
     public void SetTileType(TileType type)
     {
-        _type = type;
+        Type = type;
     }
 
     public bool TryGetEntity(out Entity entity)
@@ -24,12 +23,6 @@ public class Tile
         entity = _entity;
         return entity != null;
     }
-
-    //public Item TryGetItem()
-    //{
-    //    Item item = _item;
-    //    return item;
-    //}
 
     public virtual void Interact(Player player)
     {
