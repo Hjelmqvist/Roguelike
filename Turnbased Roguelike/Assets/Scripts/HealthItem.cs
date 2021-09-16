@@ -7,6 +7,7 @@ public class HealthItem : Item
     public override bool Interact(Player player)
     {
         player.Health.ModifyHealth(healAmount);
+        Destroy(gameObject);
         return true;
     }
 }

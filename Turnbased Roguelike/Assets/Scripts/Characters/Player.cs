@@ -31,11 +31,6 @@ public class Player : Entity
         return false;
     }
 
-    public void Heal()
-    {
-        Health.ModifyHealth(+200);
-    }
-
     public void EquipWeapon(Weapon weapon)
     {
         if (_heldWeapon)
