@@ -85,6 +85,7 @@ public abstract class Entity : MonoBehaviour
     protected bool Attack(Tile[,] tiles, Attack attack)
     {
         bool hitSomething = false;
+        SetWorldPosition(_currentPosition);
         StopAllCoroutines();
         StartCoroutine(AttackCoroutine());
         for (int i = 1; i <= attack.Range; i++)

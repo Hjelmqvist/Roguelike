@@ -51,10 +51,10 @@ public partial class PlayerController : MonoBehaviour
     {
         foreach (InputDirection inputDirection in _inputDirections)
         {
-            if (Input.GetKeyDown(inputDirection.Key) &&
-                (_player.TryMovePosition(_levelGenerator.Tiles, inputDirection.Direction) || // Try to move in the direction
-                 _player.Attack(_levelGenerator.Tiles)))                                     // Else try to attack in the direction)
+            if (Input.GetKeyDown(inputDirection.Key))
             {
+                if (!_player.TryMovePosition(_levelGenerator.Tiles, inputDirection.Direction)) // Try to move in the direction)
+                    _player.Attack(_levelGenerator.Tiles);                                     // Attack if player couldnt move
                 return true;
             }
         }
