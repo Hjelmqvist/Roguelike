@@ -52,4 +52,10 @@ public class Enemy : Entity
                 break;
         }
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 pos = new Vector3(_currentPosition.x, _currentPosition.y);
+        Gizmos.DrawWireSphere(pos, _chaseRange);
+    }
 }
