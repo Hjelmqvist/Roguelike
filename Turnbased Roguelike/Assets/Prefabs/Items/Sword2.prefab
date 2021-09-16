@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7501648031885917826}
   - component: {fileID: 7501648031885917829}
-  - component: {fileID: 7501648031885917831}
   - component: {fileID: -848630535876072799}
   m_Layer: 0
   m_Name: Sword2
@@ -84,19 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7501648031885917831
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7501648031885917830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bf9c3278499a61439d1951157835040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  price: 30
 --- !u!114 &-848630535876072799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4469d8b61beeaf46a26709b14c71d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 0
+  itemName: Sword2
+  price: 10
   _attack:
     _attackName: Stab
     _damage: 6

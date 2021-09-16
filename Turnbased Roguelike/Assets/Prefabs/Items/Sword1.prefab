@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4700050755264045391}
   - component: {fileID: 4700050755264045384}
-  - component: {fileID: 4700050755264045386}
   - component: {fileID: -3410947394957099357}
   m_Layer: 0
   m_Name: Sword1
@@ -84,19 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4700050755264045386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4700050755264045387}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bf9c3278499a61439d1951157835040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  price: 0
 --- !u!114 &-3410947394957099357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4469d8b61beeaf46a26709b14c71d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: Sword1
   price: 0
   _attack:
     _attackName: RustStab

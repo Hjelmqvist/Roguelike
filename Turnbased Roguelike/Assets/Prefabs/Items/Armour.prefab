@@ -95,4 +95,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf9c3278499a61439d1951157835040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: Health
   price: 10

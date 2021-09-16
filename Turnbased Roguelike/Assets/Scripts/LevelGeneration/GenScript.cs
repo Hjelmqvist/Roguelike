@@ -82,7 +82,6 @@ public class GenScript : MonoBehaviour
     }
     void BoardSetup()
     {
-        bool wall = false;
         _boardHolder = new GameObject("Board").transform;
         for (int x = 0; x < _columns ; x++)
         {
@@ -91,17 +90,13 @@ public class GenScript : MonoBehaviour
                 GameObject toInstantiate = floorVariants[Random.Range(0, floorVariants.Length)];
                 if (x == 0 || x == _columns -1 || y == 0 || y == _rows -1)
                 {
-                    toInstantiate = wallVariants[Random.Range(0, wallVariants.Length)];
-                    wall = true;
+                    WallPlace(x,y);
                 }
-
-                GameObject instance = Instantiate(toInstantiate, new Vector2(x,y), Quaternion.identity);
-                instance.transform.SetParent(_boardHolder);
-                if (wall)
+                else
                 {
-                    _tiles[x, y].SetTileType(Tile.TileType.NotWalkable);
+                    GameObject instance = Instantiate(toInstantiate, new Vector2(x,y), Quaternion.identity);
+                    instance.transform.SetParent(_boardHolder);    
                 }
-                wall = false;
             }            
         }
     }
@@ -113,32 +108,21 @@ public class GenScript : MonoBehaviour
             {
                 if (x == 1 && y == 1)
                 {
-                    if (_playerObject == null)
-                    {
-                        _playerObject = Instantiate(player, new Vector2(x, y), Quaternion.identity);
-                    }
-                    _playerObject.SetTile(_tiles[x, y]);
-                    _playerObject.SetWorldPosition(new Vector2Int(x, y));
-                    playerController.SetPlayer(_playerObject);
+                    PlayerPlace(x,y);
                 }
                 else if (x == 2 && y == 1 || x == 2 && y == 2 || x == 1 && y == 2)
                 {}
                 else if (x == _columns - 2 && y == _rows - 2)
                 {
-                    ExitScript exitObject = Instantiate(exit, new Vector2(x,y), Quaternion.identity);
-                    _tiles[x, y].SetTileType(Tile.TileType.Walkable);
-                    _tiles[x, y].SetItem(exitObject);
-                    exitObject.transform.SetParent(_boardHolder);
+                    ExitPlace(x,y);
                 }
                 else if (x == _columns - 3 && y == _rows - 2 || x == _columns - 3 && y == _rows - 3 || x == _columns - 2 && y == _rows - 3)
                 {}
                 else if (Random.Range(0, wallChance) == 0)
                 {
-                    GameObject instance = Instantiate(wallVariants[Random.Range(0, wallVariants.Length)], new Vector2(x,y), Quaternion.identity);
-                    instance.transform.SetParent(_boardHolder);
-                    _tiles[x, y].SetTileType(Tile.TileType.NotWalkable);
+                   WallPlace(x,y);
                 }
-                else if (Random.Range(0, _enemyTotalChance) == 0)
+                else if (Random.Range(0, _enemyTotalChance) == 0)  // a bit too random
                 {
                     Enemy baddie = Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector2(x, y), Quaternion.identity);
                     baddie.transform.SetParent(_boardHolder);
@@ -159,17 +143,11 @@ public class GenScript : MonoBehaviour
             {
                 if (x == 1 && y == 1)
                 {
-                    Player playerObject = Instantiate(player, new Vector2(x, y), Quaternion.identity);
-                    playerObject.SetTile(_tiles[x, y]);
-                    playerObject.SetWorldPosition(new Vector2Int(x, y));
-                    playerController.SetPlayer(playerObject);
+                   PlayerPlace(x,y);
                 }
                 else if (x == _columns - 2 && y == _rows - 2)
                 {
-                    ExitScript exitObject = Instantiate(exit, new Vector2(x,y), Quaternion.identity);
-                    _tiles[x, y].SetTileType(Tile.TileType.Walkable);
-                    _tiles[x, y].SetItem(exitObject);
-                    exitObject.transform.SetParent(_boardHolder);
+                    ExitPlace(x,y);
                 }
                 else if(x % 3 == 0 && y == _rows - 5)
                 {
@@ -190,8 +168,34 @@ public class GenScript : MonoBehaviour
         if(!Pathfinding.TryGetPath(_tiles, new Vector2Int(2, 2), new Vector2Int(_columns - 3, _rows - 3),
             out List<Vector2Int> path))
         {
-            SceneManager.LoadScene(1);
+           MapGeneration();
         }
+    }
+
+    void PlayerPlace(int x, int y)
+    {
+        if (_playerObject == null)
+        {
+            _playerObject = Instantiate(player, new Vector2(x, y), Quaternion.identity);
+        }
+        _playerObject.SetTile(_tiles[x, y]);
+        _playerObject.SetWorldPosition(new Vector2Int(x, y));
+        playerController.SetPlayer(_playerObject);
+    }
+
+    void ExitPlace(int x, int y)
+    {
+        ExitScript exitObject = Instantiate(exit, new Vector2(x,y), Quaternion.identity);
+        _tiles[x, y].SetTileType(Tile.TileType.Walkable);
+        _tiles[x, y].SetItem(exitObject);
+        exitObject.transform.SetParent(_boardHolder);
+    }
+
+    void WallPlace(int x, int y)
+    {
+        GameObject instance = Instantiate(wallVariants[Random.Range(0, wallVariants.Length)], new Vector2(x,y), Quaternion.identity);
+        instance.transform.SetParent(_boardHolder);
+        _tiles[x, y].SetTileType(Tile.TileType.NotWalkable);
     }
     void ShopSetup()
     {

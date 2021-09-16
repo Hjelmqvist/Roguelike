@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7173067723017192895}
   - component: {fileID: 7173067723017192888}
-  - component: {fileID: 7173067723017192890}
   - component: {fileID: 681192239277318805}
   m_Layer: 0
   m_Name: Sword4
@@ -84,19 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7173067723017192890
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7173067723017192891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bf9c3278499a61439d1951157835040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  price: 100
 --- !u!114 &681192239277318805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4469d8b61beeaf46a26709b14c71d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 0
+  itemName: Sword4
+  price: 50
   _attack:
     _attackName: Slice
     _damage: 30

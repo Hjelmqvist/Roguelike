@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1949312016555859503}
   - component: {fileID: 1949312016555859496}
-  - component: {fileID: 1949312016555859498}
   - component: {fileID: 5911743907241326169}
   m_Layer: 0
   m_Name: Sword3
@@ -84,19 +83,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1949312016555859498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1949312016555859499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bf9c3278499a61439d1951157835040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  price: 50
 --- !u!114 &5911743907241326169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +95,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4469d8b61beeaf46a26709b14c71d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  price: 0
+  itemName: Sword3
+  price: 25
   _attack:
     _attackName: Saw
     _damage: 12
