@@ -136,7 +136,9 @@ public class GenScript : MonoBehaviour
                 {
                     ShopItem shopItem = Instantiate(shopItemHolder, new Vector2(x,y), Quaternion.identity);
                     shopItem.transform.SetParent(_boardHolder);
-                    shopItem._itemToSell = Instantiate(storeItems[itemSelection], new Vector2(x, y), Quaternion.identity);
+                    Item itemToSell = Instantiate(storeItems[itemSelection], new Vector2(x, y), Quaternion.identity);
+                    itemToSell.transform.SetParent(_boardHolder);
+                    shopItem._itemToSell = itemToSell;
                     TextMesh displayedPrice = shopItem.GetComponentInChildren<TextMesh>();
                     displayedPrice.text = shopItem._itemToSell.Price.ToString();
                     _tiles[x, y].SetTileType(Tile.TileType.Walkable);
