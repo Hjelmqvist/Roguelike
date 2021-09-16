@@ -523,7 +523,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66547d9fd90854a4ca83328a045ab385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 100
+  _maxHealth: 200
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls:
@@ -573,7 +573,7 @@ MonoBehaviour:
   _heldWeapon: {fileID: 0}
   _basicAttack:
     _attackName: Punch
-    _damage: 2
+    _damage: 3
     _range: 1
     _isPiercing: 0
   _gold: 0

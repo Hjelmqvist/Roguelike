@@ -15,22 +15,20 @@ public class GenScript : MonoBehaviour
     public int baseColumns;
     public int baseRows;
     
+    public int currentLevel;
     public int wallChance;
     public int enemyBaseChance;
     public ExitScript exit;
     public Player player;
-    public GameObject saveObject;
     public ShopItem shopItemHolder;
     public Enemy[] enemies;
     public GameObject[] floorVariants;
     public GameObject[] wallVariants;
     public Item[] storeItems;
-    private int _currentLevel;
     private float _divisionHandler;
     private int _enemyTotalChance;
     private Player _playerObject;
     private Transform _boardHolder;
-    private InfoToSave _saveFile;
     private Tile[,] _tiles;
     private static bool _saved;
     private int _columns;
@@ -41,10 +39,10 @@ public class GenScript : MonoBehaviour
     
     [SerializeField] PlayerController playerController;
     [SerializeField] EnemyController enemyController;
-    void Initialize()
+    private void Initialize()
     {
-        _columns = baseColumns + _currentLevel;
-        _rows = baseRows + _currentLevel;
+        _columns = baseColumns + currentLevel;
+        _rows = baseRows + currentLevel;
         _tiles = new Tile[_columns, _rows];
         
         for (int x = 0; x < _columns; x++)
@@ -54,9 +52,9 @@ public class GenScript : MonoBehaviour
                 _tiles[x, y] = new Tile();
             }
         }
-        if (_currentLevel != 0)
+        if (currentLevel != 0)
         {
-            _divisionHandler = enemyBaseChance / _currentLevel + 1;
+            _divisionHandler = enemyBaseChance / currentLevel + 1;
             _enemyTotalChance = (int)_divisionHandler;
         }
         else
@@ -64,23 +62,8 @@ public class GenScript : MonoBehaviour
             _enemyTotalChance = enemyBaseChance + 1;
         }
     }
-
-    void HandleSaveFile()
-    {
-        if (!_saved)
-        {
-            GameObject saveInstance = Instantiate(saveObject, new Vector2(0, 0), Quaternion.identity);
-            _saveFile = saveInstance.GetComponent<InfoToSave>();
-            DontDestroyOnLoad(saveInstance);
-            _saved = true;
-        }
-        else
-        {
-            _saveFile = GameObject.FindWithTag("Save").GetComponent<InfoToSave>();
-        }
-        _currentLevel = _saveFile.CurrentLevel;
-    }
-    void BoardSetup()
+    
+    private void BoardSetup()
     {
         _boardHolder = new GameObject("Board").transform;
         for (int x = 0; x < _columns ; x++)
@@ -100,7 +83,7 @@ public class GenScript : MonoBehaviour
             }            
         }
     }
-    void ObjectPlacement()
+    private void ObjectPlacement()
     {
         for (int x = 1; x < _columns -1; x++)
         {
@@ -134,7 +117,7 @@ public class GenScript : MonoBehaviour
             }
         }
     }
-    void ShopObjectPlacement()
+    private void ShopObjectPlacement()
     {
         int itemSelection = 0;
         for (int x = 1; x < _columns - 1; x++)
@@ -163,7 +146,7 @@ public class GenScript : MonoBehaviour
             }
         }
     }
-    void CheckIfObstructed()
+    private void CheckIfObstructed()
     {
         if(!Pathfinding.TryGetPath(_tiles, new Vector2Int(2, 2), new Vector2Int(_columns - 3, _rows - 3),
             out List<Vector2Int> path))
@@ -172,7 +155,7 @@ public class GenScript : MonoBehaviour
         }
     }
 
-    void PlayerPlace(int x, int y)
+   private void PlayerPlace(int x, int y)
     {
         if (_playerObject == null)
         {
@@ -183,7 +166,7 @@ public class GenScript : MonoBehaviour
         playerController.SetPlayer(_playerObject);
     }
 
-    void ExitPlace(int x, int y)
+   private void ExitPlace(int x, int y)
     {
         ExitScript exitObject = Instantiate(exit, new Vector2(x,y), Quaternion.identity);
         _tiles[x, y].SetTileType(Tile.TileType.Walkable);
@@ -191,13 +174,21 @@ public class GenScript : MonoBehaviour
         exitObject.transform.SetParent(_boardHolder);
     }
 
-    void WallPlace(int x, int y)
+   private void WallPlace(int x, int y)
     {
         GameObject instance = Instantiate(wallVariants[Random.Range(0, wallVariants.Length)], new Vector2(x,y), Quaternion.identity);
         instance.transform.SetParent(_boardHolder);
         _tiles[x, y].SetTileType(Tile.TileType.NotWalkable);
     }
-    void ShopSetup()
+
+    public void NextLevel()
+    {
+        currentLevel += 1;
+        Destroy(_boardHolder.gameObject);
+        enemyController.GetComponent<EnemyController>().ClearEnemyList();
+        MapGeneration();
+    }
+   private void ShopSetup()
     {
         _columns = 15 + 1;
         _rows = 10;
@@ -214,10 +205,9 @@ public class GenScript : MonoBehaviour
         ShopObjectPlacement();
     }
     // Start is called before the first frame update
-    public void MapGeneration()
+    private void MapGeneration()
     {
-        HandleSaveFile();
-        if (_currentLevel % 3 == 0 && _currentLevel != 0)
+        if (currentLevel % 3 == 0 && currentLevel != 0)
         {
             ShopSetup();
         }
@@ -229,7 +219,7 @@ public class GenScript : MonoBehaviour
             CheckIfObstructed();
         }
     }
-    void Start()
+    private void Start()
     { 
         MapGeneration();
     }

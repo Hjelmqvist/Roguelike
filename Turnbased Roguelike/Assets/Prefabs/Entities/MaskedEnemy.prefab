@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66547d9fd90854a4ca83328a045ab385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 10
+  _maxHealth: 9
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls:
@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _yOffset: 0.25
   _attackDuration: 0.1
+  _attackJumpDistance: 0.5
   OnEntityDeath:
     m_PersistentCalls:
       m_Calls: []
