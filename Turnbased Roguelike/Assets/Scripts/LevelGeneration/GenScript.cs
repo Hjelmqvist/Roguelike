@@ -17,7 +17,7 @@ public class GenScript : MonoBehaviour
     
     public int currentLevel;
     public int wallChance;
-    public int enemyBaseChance;
+    public int maxEnemyBase;
     public ExitScript exit;
     public ShopItem shopItemHolder;
     public Enemy[] enemies;
@@ -25,12 +25,12 @@ public class GenScript : MonoBehaviour
     public GameObject[] wallVariants;
     public Item[] storeItems;
     private float _divisionHandler;
-    private int _enemyTotalChance;
     public Player playerObject;
     private Transform _boardHolder;
     private Tile[,] _tiles;
     private int _columns;
     private int _rows;
+    private int _maxEnemyAmount;
 
     public Tile[,] Tiles => _tiles;
     
@@ -52,12 +52,12 @@ public class GenScript : MonoBehaviour
         }
         if (currentLevel != 0)
         {
-            _divisionHandler = enemyBaseChance / currentLevel + 1;
-            _enemyTotalChance = (int)_divisionHandler;
+            _divisionHandler = (float) (maxEnemyBase * 0.5 * currentLevel);
+            _maxEnemyAmount = (int) _divisionHandler;
         }
         else
         {
-            _enemyTotalChance = enemyBaseChance + 1;
+            _maxEnemyAmount = maxEnemyBase;
         }
     }
     
@@ -103,15 +103,24 @@ public class GenScript : MonoBehaviour
                 {
                    WallPlace(x,y);
                 }
-                else if (Random.Range(0, _enemyTotalChance) == 0)  // a bit too random
-                {
-                    Enemy baddie = Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector2(x, y), Quaternion.identity);
-                    baddie.transform.SetParent(_boardHolder);
-                    baddie.SetTile(_tiles[x, y]);
-                    baddie.SetWorldPosition(new Vector2Int(x, y));
-                    
-                    enemyController.AddEnemy(baddie);
-                }
+            }
+        }
+    }
+    private void EnemyPlacement()
+    {
+
+        for (int enemyCount = 0; enemyCount < _maxEnemyAmount; enemyCount++)
+        {
+            int randomX = Random.Range(1, _columns - 1);
+            int randomY = Random.Range(1, _rows - 1);
+            Tile randomTile = Tiles[randomX, randomY];
+            if (randomTile.IsWalkable == true && !randomTile.TryGetEntity(out Entity entity))
+            {
+                Enemy baddie = Instantiate(enemies[Random.Range(0, enemies.Length)], new Vector2(randomX, randomY), Quaternion.identity);
+                baddie.transform.SetParent(_boardHolder);
+                baddie.SetTile(randomTile);
+                baddie.SetWorldPosition(new Vector2Int(randomX,randomY));
+                enemyController.AddEnemy(baddie);
             }
         }
     }
@@ -212,6 +221,7 @@ public class GenScript : MonoBehaviour
             Initialize();
             BoardSetup();
             ObjectPlacement();
+            EnemyPlacement();
             CheckIfObstructed();
         }
     }

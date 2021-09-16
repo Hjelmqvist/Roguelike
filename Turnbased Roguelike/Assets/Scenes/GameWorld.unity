@@ -239,6 +239,7 @@ MonoBehaviour:
   currentLevel: 0
   wallChance: 10
   enemyBaseChance: 10
+  maxEnemyBase: 6
   exit: {fileID: 6405352605866101786, guid: 6c8159fe9123e824899dee84c01bd337, type: 3}
   shopItemHolder: {fileID: 2326604286691890880, guid: 2149d60352ebbd7489dc90d683f04b5e, type: 3}
   enemies:

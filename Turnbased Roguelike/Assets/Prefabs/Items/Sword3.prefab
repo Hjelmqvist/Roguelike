@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Sword3
-  price: 25
+  price: 20
   _attack:
     _attackName: Saw
     _damage: 9
