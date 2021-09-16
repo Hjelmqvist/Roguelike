@@ -23,11 +23,8 @@ public class Player : Entity
     }
     public bool Interact()
     {
-        if (_currentTile != null)
-        {
-            _currentTile.Interact(this);
+        if (_currentTile != null && _currentTile.Interact(this))
             return true;
-        }
         return false;
     }
 

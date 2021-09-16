@@ -24,10 +24,11 @@ public class Tile
         return entity != null;
     }
 
-    public virtual void Interact(Player player)
+    public virtual bool Interact(Player player)
     {
         if (_item != null)
-            _item.Interact(player);
+            return _item.Interact(player);
+        return false;
     }
 
     public void EnterTile(Entity entity)
