@@ -1,13 +1,12 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public partial class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [SerializeField] GenScript _levelGenerator;
     [SerializeField] Player _player;
     [SerializeField] float _actionsPerSecond = 4f;
-    [SerializeField]
-    KeyCode _upKey = KeyCode.W,
+    [SerializeField] KeyCode _upKey = KeyCode.W,
                              _leftKey = KeyCode.A,
                              _downKey = KeyCode.S,
                              _rightKey = KeyCode.D,

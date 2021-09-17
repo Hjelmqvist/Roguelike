@@ -85,9 +85,11 @@ public abstract class Entity : MonoBehaviour
     protected bool Attack(Tile[,] tiles, Attack attack)
     {
         bool hitSomething = false;
-        SetWorldPosition(_currentPosition);
+
         StopAllCoroutines();
+        SetWorldPosition(_currentPosition); // Fixes moving outside the tile
         StartCoroutine(AttackCoroutine());
+
         for (int i = 1; i <= attack.Range; i++)
         {
             Vector2Int posToCheck = _currentPosition + _currentDirection * i;
