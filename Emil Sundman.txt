@@ -1,0 +1,14 @@
+Q: What parts of the game have you been working on?
+
+A: I mostly worked on the world gen parts of the project and the shop.
+C# Scripts: GenScript, Item, ShopItem. I also made some changes in most other scripts.  
+	
+Q: What did you find difficult?
+
+A: Figuring out how to start with the world gen. I started with the idea that we would use pre-built parts that my script would build into a structure. 
+I quickly abandoned that in favour of the current system that generates one room at a time proceduraly when the player moves to the next level.
+The hardest parts were those which were not world-gen related, for example getting the shop systems to work properly. 
+	
+Q: What did you find easy?
+
+A: Once I had started on the new system work went fast on the world-gen but I would not say anything was particularly easy.
